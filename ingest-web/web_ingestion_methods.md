@@ -4,7 +4,7 @@ companion-to: SKILL.md
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
 license: Free to share and adapt with attribution
-version: 1.2.1-share
+version: 1.2.3-share
 updated: 4 May 2026
 ---
 
