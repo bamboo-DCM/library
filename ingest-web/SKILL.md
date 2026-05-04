@@ -10,7 +10,7 @@ description: >-
   files. DO NOT TRIGGER when: user asks to fetch a URL for one-time reading without
   saving (use WebFetch directly), process local documents, or needs structured data
   extraction from web pages.
-version: 1.2.1-share
+version: 1.2.2-share
 updated: 4 May 2026
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
@@ -86,6 +86,8 @@ curl -s "https://r.jina.ai/$FULL_URL"
 ```
 
 If that also fails, use the WebFetch tool with the prompt "Extract the full article content as clean markdown."
+
+**Extraction discipline — fetch once to file, then Read.** Always pipe the fetch into a temp file in one call (`curl -s "$URL" > /tmp/extract.md`), then use the Read tool on `/tmp/extract.md`. Do NOT chain `| head -c N` and `| tail -c N` into multiple curl invocations to inspect a partial body — that's three round-trips for one resource. The full body fits in Read's window for almost all article-class content (typical 5–25KB); when it doesn't, Read with `offset`/`limit`.
 
 ### 2b. YouTube branch (replaces 2 for YouTube URLs)
 
