@@ -1,0 +1,301 @@
+---
+title: Web Ingestion Methods
+companion-to: SKILL.md
+attribution: Bamboo DCM (https://bamboodcm.com)
+contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
+license: Free to share and adapt with attribution
+version: 1.2.1-share
+updated: 4 May 2026
+---
+
+# Web Ingestion Methods
+
+## About this skill
+
+Built and maintained by **Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an AI-native private credit infrastructure platform in São Paulo, Brazil. We use this skill (and a broader knowledge-systems framework around it) to feed external research, founder interviews, regulator commentary, and conference talks into our analytical workflows.
+
+Comments, improvements, or questions:
+
+- **Arthur O'Keefe** — [arthur@bamboodcm.com](mailto:arthur@bamboodcm.com)
+- **Felipe Grassi de Moraes** — [felipe@bamboodcm.com](mailto:felipe@bamboodcm.com)
+- **Urian Inhauser** — [urian@bamboodcm.com](mailto:urian@bamboodcm.com)
+
+*Companion to `SKILL.md`. Either file can stand alone; both travel together by design.*
+
+---
+
+Reference for downloading and converting web content to markdown for ingestion into the knowledge base. Choose by situation, then follow the relevant method.
+
+## Decision Tree
+
+**YouTube video URL** → Method 6 below (youtube-transcript-api + yt-dlp). Defuddle / Jina / WebFetch ALL return page chrome on YouTube URLs — never use the standard chain on `youtube.com/watch?v=...` or `youtu.be/...`.
+**Single public page, quick grab** → Defuddle API or Jina Reader API
+**Single page, need full control** → Defuddle CLI
+**JS-heavy or SPA page** → Jina Reader API (runs headless Chrome)
+**Already in a Claude Code session** → WebFetch tool
+**Multi-page site crawl** → Crawl4AI
+**Authenticated/private content** → Defuddle browser extension (Obsidian Web Clipper) or manual save + Defuddle CLI on local HTML
+**Dead / 404 / paywalled URL** → try Archive.org Wayback snapshot before giving up (see "Source-layer fallbacks" below)
+**arXiv paper** → use the `/html/{id}` endpoint directly (cleaner than abstract page)
+
+## Method 1: Defuddle API
+
+No install. Returns clean markdown with YAML frontmatter (title, author, published, domain, word count).
+
+```bash
+curl -s "https://defuddle.md/example.com/article" > output.md
+```
+
+Replace `example.com/article` with the target URL path. The API fetches, extracts main content and strips clutter.
+
+**Best for:** quick single-page grabs of public content.
+**Limitations:** no JS rendering, no authentication, server-side fetch only.
+
+Source: https://defuddle.md/
+
+## Method 2: Defuddle CLI
+
+Local execution with more options. Install globally or use npx.
+
+```bash
+# Parse URL to markdown
+npx defuddle parse https://example.com/article --markdown
+
+# Output as JSON (includes all metadata)
+npx defuddle parse https://example.com/article --json
+
+# Save to file
+npx defuddle parse https://example.com/article --markdown --output result.md
+
+# Extract single property
+npx defuddle parse https://example.com/article --property title
+
+# Parse local HTML file
+npx defuddle parse page.html --markdown
+```
+
+Key CLI flags: `--markdown` (`-m`), `--json` (`-j`), `--output <file>` (`-o`), `--property <name>` (`-p`), `--debug`.
+
+**Programmatic (Node.js):**
+
+```javascript
+import { Defuddle } from 'defuddle/node';
+import { parseHTML } from 'linkedom';
+
+const html = await fetch('https://example.com/article').then(r => r.text());
+const { document } = parseHTML(html);
+const result = await Defuddle(document, 'https://example.com/article', { markdown: true });
+// result.content, result.title, result.author, result.published, etc.
+```
+
+Configuration options worth knowing: `contentSelector` (CSS selector to force main content area), `removeImages: true` (strip all images), `separateMarkdown: true` (return both HTML and markdown).
+
+**Best for:** batch processing, local HTML files, custom content selectors.
+
+Source: https://defuddle.md/docs
+
+## Method 3: Jina Reader API
+
+Free, stable, handles JavaScript-rendered pages via headless Chrome.
+
+```bash
+# Basic -- prepend r.jina.ai/ to any URL
+curl -s "https://r.jina.ai/https://example.com/article"
+
+# Force markdown output (skip readability)
+curl -s -H "x-respond-with: markdown" "https://r.jina.ai/https://example.com/article"
+
+# Use ReaderLM-v2 model for higher quality
+curl -s -H "x-respond-with: readerlm-v2" "https://r.jina.ai/https://example.com/article"
+```
+
+Response headers: `x-respond-with` accepts `markdown`, `html`, `text`, `screenshot`, `readerlm-v2`.
+
+**Best for:** JS-heavy SPAs, pages that need browser rendering, quick one-liners.
+**Limitations:** rate limits on free tier, content may be truncated on very long pages.
+
+Source: https://jina.ai/reader/
+
+## Method 4: Claude Code WebFetch (Built-in)
+
+Already available in any Claude Code session. No setup.
+
+The WebFetch tool fetches a URL, converts HTML to markdown, and processes it with a prompt. Useful when you need extraction + summarization in one step.
+
+**Best for:** ad-hoc extraction during a working session, when you need AI processing on the content immediately.
+**Limitations:** content may be summarized for very large pages, 15-minute cache, read-only.
+
+## Method 5: Crawl4AI (Open-Source)
+
+Python library built specifically for AI/LLM content extraction. Runs locally.
+
+```bash
+pip install crawl4ai
+
+# Quick extract
+crawl4ai https://example.com/article --output markdown
+```
+
+Supports async crawling, custom extraction strategies and LLM-optimized markdown output by default.
+
+**Best for:** bulk ingestion pipelines, Python workflows, zero cost.
+
+Source: https://github.com/unclecode/crawl4ai
+
+## Method 6: YouTube transcript extraction
+
+YouTube URLs route here BEFORE the Defuddle / Jina chain. Defuddle, Jina, and WebFetch all return page chrome (comments, navigation, related videos) instead of the actual transcript — silent failure. Do not fall back to them on YouTube URLs.
+
+**URL detection.** Any URL matching `youtube.com/watch?v=`, `youtu.be/`, `youtube.com/shorts/`, or `youtube.com/embed/` triggers this branch. Extract the 11-character video ID:
+
+```bash
+VIDEO_ID=$(echo "$URL" | sed -nE 's|.*(youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/|youtube\.com/shorts/)([A-Za-z0-9_-]{11}).*|\2|p')
+```
+
+**One-time prerequisite.** `uv` must be installed. If `uv --version` (macOS/Linux/PowerShell) or `where uv` (Windows CMD) returns nothing, install it once:
+
+```bash
+# macOS / Linux
+brew install uv     # or: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows (PowerShell)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Any OS with Python
+pip install uv
+```
+
+The chain uses `uvx` so the YouTube tools are fetched ephemerally — nothing is permanently installed.
+
+### Tier 1 — youtube-transcript-api (transcript)
+
+```bash
+uvx --quiet --from youtube-transcript-api python3 -c "
+from youtube_transcript_api import YouTubeTranscriptApi
+import sys, json
+api = YouTubeTranscriptApi()
+try:
+    fetched = api.fetch(sys.argv[1], languages=['en','en-US','pt-BR','pt'])
+    print(json.dumps({
+        'language': fetched.language_code,
+        'is_generated': fetched.is_generated,
+        'text': ' '.join(s.text for s in fetched.snippets),
+    }))
+except Exception as e:
+    print(json.dumps({'error': type(e).__name__, 'detail': str(e)}))
+    sys.exit(1)
+" "$VIDEO_ID"
+```
+
+Language preference: EN → EN-US → PT-BR → PT. If none match, the call falls back to the first available language; flag in frontmatter.
+
+Output fields used downstream:
+- `language` → `caption_language` frontmatter (`en`, `pt-BR`, etc.)
+- `is_generated` → `caption_type` frontmatter (`auto-generated` if true, else `manual`)
+- `text` → body of the markdown file
+
+### Tier 2 — yt-dlp (metadata always; transcript fallback)
+
+Always run yt-dlp for metadata regardless of Tier 1 result — it gives title, channel, duration, upload date, description:
+
+```bash
+uvx --quiet yt-dlp --skip-download \
+  --print "%(title)s	%(channel)s	%(duration_string)s	%(upload_date)s" \
+  --print "DESC:%(description)s" \
+  "$URL" 2>/dev/null
+```
+
+If Tier 1 fails (NoTranscriptFound, TranscriptsDisabled, RequestBlocked, etc.), use yt-dlp's subtitle download as backup transcript source:
+
+```bash
+uvx --quiet yt-dlp --skip-download \
+  --write-auto-sub --sub-lang "en,en-US,pt-BR,pt" --convert-subs vtt \
+  -o "/tmp/%(id)s" "$URL" 2>/dev/null
+# Strip VTT headers/timestamps to plain text:
+for lang in en en-US pt-BR pt; do
+  if [ -f "/tmp/${VIDEO_ID}.${lang}.vtt" ]; then
+    sed -E '/^WEBVTT/d; /^[0-9]+$/d; /-->/d; /^$/d; s/<[^>]+>//g' "/tmp/${VIDEO_ID}.${lang}.vtt"
+    break
+  fi
+done
+```
+
+If both Tier 1 and Tier 2 produce no transcript text, fall through to Tier 3.
+
+### Tier 3 — explicit failure with user-facing alert (mandatory)
+
+If no transcript is available (captions disabled, region-locked, music-only video, etc.), do NOT fall back to Defuddle / Jina / WebFetch — those return page chrome that looks legitimate but isn't.
+
+**Surface a visible warning to the user before proceeding.** Do not silently produce a stub. Format:
+
+```
+⚠️ No transcript available for "[video title]" ([channel], [duration]).
+   Reason: [TranscriptsDisabled | NoTranscriptFound | RequestBlocked | other]
+   Saving metadata-only stub. Options:
+     (a) accept stub
+     (b) skip save
+     (c) provide audio transcription separately (e.g. via /ingest with a downloaded audio file)
+```
+
+Default to (a) if the user does not respond — save a metadata-only stub (yt-dlp description + title + channel + duration), with frontmatter `caption_status: unavailable` and `extraction_method: yt-dlp metadata only`. The skill must NOT silently continue as if extraction succeeded.
+
+For `/assess-link`: render verdict as **tentative** explicitly — the description is ~5% of content and the verdict cannot stand on it alone. Mark in the verdict header.
+
+### Low-signal detection (between Tier 1/2 and Tier 3)
+
+If Tier 1 or Tier 2 returns a transcript but it's mostly silence-markers (`[Music]`, `[Applause]`, `[Laughter]`) or under 100 meaningful words for a video over 2 minutes, treat as low-signal and surface:
+
+```
+⚠️ Transcript captured but content is sparse (~[N] words for [duration] video).
+   Likely a music video, vlog without speech, or non-verbal content.
+   Save anyway? (y/n)
+```
+
+### Frontmatter additions for YouTube outputs
+
+```yaml
+source_type: youtube
+video_id: dQw4w9WgXcQ
+channel: Rick Astley
+duration: 3:33
+upload_date: 2009-10-25
+caption_language: en              # absent if Tier 3
+caption_type: manual              # or auto-generated; absent if Tier 3
+caption_status: ok                # or unavailable, low-signal
+extraction_method: youtube-transcript-api  # or yt-dlp-subs, yt-dlp-metadata-only
+```
+
+### Gotchas
+
+**Rate limiting on batch.** YouTube throttles after ~100 calls/min. For batch ingestion of 5+ YouTube URLs, add a 2s delay between calls.
+
+**Auto-generated PT-BR caption quality varies.** Manual captions are reliable; auto-generated PT for casual / informal content (founder interviews, podcasts) often degrades. Downstream consumers should discount confidence when `caption_type: auto-generated` AND `caption_language` starts with `pt`.
+
+**Long lecture transcripts.** A 90-minute talk produces 15–25k words. Well within Claude's context but noticeable. The frontmatter `duration` lets downstream skills budget accordingly.
+
+**Cloud-IP blocking does not apply at single-user volume on residential IPs.** youtube-transcript-api's widely-reported `RequestBlocked` errors are AWS / GCP / Azure IP-range specific — they don't affect single-user workstation usage on residential connections.
+
+**yt-dlp JS-runtime warning is non-fatal for transcripts/metadata.** yt-dlp warns about needing a JS runtime (deno) for some video formats. The warning is harmless for the transcript + metadata paths used here. Install deno only if you want to silence it (not required) — `brew install deno` (macOS/Linux), `winget install DenoLand.Deno` (Windows), or per the [official deno docs](https://deno.com/).
+
+**Music videos, vlogs without substantive speech, shorts <60s.** Often produce useful-sounding metadata but empty / silence-marker transcripts. The low-signal alert (above) catches this. Don't pretend a `[Music]`-only transcript is content.
+
+## Source-layer fallbacks (when the URL itself is the problem)
+
+If the live URL is dead, 404s, or is fully paywalled with no bypass:
+
+- **Archive.org Wayback** — prepend `https://web.archive.org/web/*/` to the URL, or grab the latest snapshot: `curl -sL "https://web.archive.org/web/2026/https://target.com/article"`. Then run the normal Defuddle → Jina chain on the snapshot URL.
+- **arXiv** — always prefer the HTML endpoint (`arxiv.org/html/{id}`) over the abstract page (`arxiv.org/abs/{id}`). The HTML version gives the full paper; the abstract page only gives the abstract.
+- **GitHub** — for raw file content, use `raw.githubusercontent.com/user/repo/branch/path` directly. For gists, the raw endpoint works too.
+- **Nitter mirrors** — for X/Twitter when the main site rate-limits or paywalls. Public instance list at `github.com/zedeus/nitter/wiki/Instances`.
+
+These are source-routing changes, not parser swaps — they change *which URL you fetch*, not *how you parse it*.
+
+## Workflow Integration
+
+After extracting content, drop the resulting markdown file into `inbox/` and process per the `/inbox-triage` skill. For deal-related content, follow the `/deal-ingest` skill instead.
+
+Suggested filename convention: `{domain}_{slug}_{YYYY-MM-DD}.md` (e.g., `bloomberg_brazil-rate-decision_2026-03-14.md`).
+
+---
+
+*This skill is part of an internal knowledge-systems framework Bamboo DCM has been building for AI-native execution in regulated finance. If the broader framework is interesting, get in touch — we're publishing more in the coming weeks.*
