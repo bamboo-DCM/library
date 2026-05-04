@@ -10,7 +10,7 @@ description: >-
   files. DO NOT TRIGGER when: user asks to fetch a URL for one-time reading without
   saving (use WebFetch directly), process local documents, or needs structured data
   extraction from web pages.
-version: 1.3.0-share
+version: 1.4.0-share
 updated: 4 May 2026
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
@@ -179,7 +179,13 @@ These are structurally likely failure modes based on the extraction methods. Che
 
 **Paywalled content returns login pages or article stubs.** FT, Bloomberg, WSJ, and similar sites return the first paragraph plus a paywall prompt. The extraction will look like it worked (valid HTML, real title) but the body is 2-3 sentences. Check that the output has substantive length relative to what the article should contain. If paywalled, tell the user rather than saving a stub.
 
-**WebFetch summarizes instead of extracting.** When used as the last-resort fallback, WebFetch processes content through a small model that may summarize rather than preserve the full text. The saved file will be shorter than the original article. Flag this in the frontmatter (`extraction_method: WebFetch (may be summarized)`) so downstream consumers know the content isn't verbatim.
+**Paywalled subscription-archive sites may have a paired local archive.** Some sites publish recent entries free but paywall older entries. Before reporting a paywall failure, check whether the consuming workstation has a paired local archive of the same source (cloud-mounted folder, local repo) — extract from the local copy instead and note `source_pdf:` (or equivalent) in the output frontmatter. Pattern fires on subscription-research sites with a downloadable archive component; consuming workstation defines the lookup paths.
+
+**WebFetch is a summarizer, not an extractor.** Empirically loses 75–92% of content on full articles (measured 15 Apr 2026 across multiple sources — Simon Willison, Medium, arXiv HTML, Anthropic blog). Some sites (e.g., X.com) 402 on WebFetch where Defuddle and Jina both succeed. Treat WebFetch as "get me something to read right now," not "archive this page." Only use as last resort when both Defuddle and Jina fail, and always flag in frontmatter (`extraction_method: WebFetch (summarized, ~80% content loss)`) so downstream consumers don't mistake it for verbatim.
+
+**Defuddle returns 403 on some bot-protected sites (e.g., Medium).** Jina handles these — its managed browser penetrates anti-bot detection that plain HTTP fetches can't. The existing `<50 words → fall back to Jina` rule catches this, but don't conclude a site is unreachable just because Defuddle fails — always run Jina before declaring failure.
+
+**X/Twitter multi-tweet threads return only the opener via all three tiers.** Defuddle, Jina Reader, and WebFetch all serve the single-post page metadata plus the opening tweet (~20–40 words ending in 🧵) on thread URLs. The substance — subsequent tweets by the same author — is not in the response from any of the three. Specific to thread structure; single tweets with long-form article-style content extract fully via Jina. Symptom: extracted markdown has <200 chars of body content, contains 🧵 or "Read N replies," and is surrounded by nav/trending-topics boilerplate. If detected: (1) escalate beyond the chain — search for a GitHub mirror or community archive that captured the thread verbatim, try a dedicated thread-reader service (`twitter-thread.com/t/{id}`), or prompt the user to paste the body; (2) if saving anyway, flag in frontmatter (`extraction_method: chain-incomplete; opener only — body not captured`) so downstream consumers know not to treat the opener as the full thread.
 
 **Jina Reader rate limits on batch processing.** When processing 5+ URLs in parallel, Jina's free tier can return 429 errors. If batch ingesting, add a 2-second delay between Jina calls or process in waves of 3-4.
 
