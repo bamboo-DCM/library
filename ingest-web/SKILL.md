@@ -10,7 +10,7 @@ description: >-
   files. DO NOT TRIGGER when: user asks to fetch a URL for one-time reading without
   saving (use WebFetch directly), process local documents, or needs structured data
   extraction from web pages.
-version: 1.2.3-share
+version: 1.3.0-share
 updated: 4 May 2026
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
@@ -143,6 +143,21 @@ Use the filename convention: `{domain}_{slug}_{YYYY-MM-DD}.md`
 Example: `bloomberg_brazil-rate-decision_2026-03-14.md`
 
 If the user specified a different save location, use that instead.
+
+### 5. Report and summarize
+
+After saving each URL's file, print to chat:
+
+1. **Save path** (e.g., `Saved → inbox/{domain}_{slug}_{YYYY-MM-DD}.md`).
+2. **Executive summary (3–5 sentences)** of what the article actually argues — content-level, not metadata. Lets the user decide whether to read in full now, batch later, or skip.
+
+**When to suppress the summary:**
+
+- **Multiple URLs in parallel mode** with ≥ 5 URLs: print the summary table only; skip exec summaries.
+- **Failed extraction:** no summary possible — print the error.
+- **YouTube Tier 3 metadata-only stub:** flag explicitly that the summary is description-only (~5% of content), or skip entirely.
+
+The summary describes WHAT the article says, not whether it's relevant — keep it factual.
 
 ## Rules
 
