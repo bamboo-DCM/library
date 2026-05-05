@@ -4,7 +4,7 @@ companion-to: SKILL.md
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
 license: Free to share and adapt with attribution
-version: 1.2.4-share
+version: 1.2.5-share
 updated: 5 May 2026
 ---
 
@@ -276,7 +276,7 @@ extraction_method: youtube-transcript-api  # or yt-dlp-subs, yt-dlp-metadata-onl
 
 **Rate limiting on batch.** YouTube throttles after ~100 calls/min. For batch ingestion of 5+ YouTube URLs, add a 2s delay between calls.
 
-**Auto-generated PT-BR caption quality varies.** Manual captions are reliable; auto-generated PT for casual / informal content (founder interviews, podcasts) often degrades. Downstream consumers should discount confidence when `caption_type: auto-generated` AND `caption_language` starts with `pt`.
+**Auto-generated captions carry ASR artifacts; manual cleanup at extraction time is required before downstream citation.** Manual captions are reliable. Auto-generated tracks have proper-noun and technical-term mishearings that propagate as nonsense quotes if downstream consumers (content production, citation, briefing) trust the file. Validated 4 May 2026 on a 10-min EN talk: clean speaker audio still produced "DM's" → DeepMind, "Steve Jay" → Steve Yegge, "anch manager" → line manager, "DRRI" → DRI, "highle plans" → high-level plans, "in orchards" → in your codebase — i.e. the proper nouns and technical terms a downstream brief would actually quote. Strengthened 5 May 2026 at scale on a 1h28m podcast (18,137 words): 13+ proper-noun mishearings caught (Thoma Bravo / Manus / Netskope / Wrexham / oligopoly / CoreWeave / Trainium / Marketo / Salesloft / agentic / Aentic). PT-BR auto-generated captions on casual / informal content (founder interviews, podcasts) degrade further. **At extraction time**, when `caption_type: auto-generated`, do a manual artifact-cleanup pass before saving — re-listen to suspect proper-noun stretches against the source video, replace mishearings with their intended forms, and note the cleanup in the transcript-section preamble so downstream readers know it happened. The consumer reads the file, not the metadata.
 
 **Long lecture transcripts may exceed downstream Read-tool token limits.** A 60–90+ minute talk produces 15–25k words. youtube-transcript-api returns the body as a single text blob (sentences space-joined), and Claude Code's Read tool has a ~25K-token limit per call — line-based pagination via `limit` does not subdivide a one-line blob usefully. **Pre-format at extraction time** when transcript exceeds ~12K words (or video duration > 30 min): split on sentence-ending punctuation (`. ! ?`) and group into ~4-sentence paragraphs in Python before saving. The body becomes paginatable by line / offset; downstream consumers can read it incrementally without scrambling. The frontmatter `duration` lets downstream skills budget accordingly. Validated 5 May 2026 on a 1h28m 20VC podcast (18,137 words, 95KB) — initial Read calls failed with "29754 tokens > 25000 limit" until paragraph-formatting was applied.
 
