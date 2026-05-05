@@ -10,8 +10,8 @@ description: >-
   files. DO NOT TRIGGER when: user asks to fetch a URL for one-time reading without
   saving (use WebFetch directly), process local documents, or needs structured data
   extraction from web pages.
-version: 1.4.0-share
-updated: 4 May 2026
+version: 1.4.1-share
+updated: 5 May 2026
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
 license: Free to share and adapt with attribution

@@ -4,8 +4,8 @@ companion-to: SKILL.md
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
 license: Free to share and adapt with attribution
-version: 1.2.3-share
-updated: 4 May 2026
+version: 1.2.4-share
+updated: 5 May 2026
 ---
 
 # Web Ingestion Methods
@@ -149,7 +149,14 @@ YouTube URLs route here BEFORE the Defuddle / Jina chain. Defuddle, Jina, and We
 **URL detection.** Any URL matching `youtube.com/watch?v=`, `youtu.be/`, `youtube.com/shorts/`, or `youtube.com/embed/` triggers this branch. Extract the 11-character video ID:
 
 ```bash
-VIDEO_ID=$(echo "$URL" | sed -nE 's|.*(youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/|youtube\.com/shorts/)([A-Za-z0-9_-]{11}).*|\2|p')
+# Portable across macOS / Linux / Windows. The `sed -nE` equivalent fails on
+# macOS BSD sed ("RE error: parentheses not balanced") because of how `\?` and
+# alternation `|` interact inside `()` in `-E` mode.
+VIDEO_ID=$(python3 -c "
+import re, sys
+m = re.search(r'(?:youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/|youtube\.com/shorts/)([A-Za-z0-9_-]{11})', sys.argv[1])
+print(m.group(1) if m else '')
+" "$URL")
 ```
 
 **One-time prerequisite.** `uv` must be installed. If `uv --version` (macOS/Linux/PowerShell) or `where uv` (Windows CMD) returns nothing, install it once:
@@ -271,7 +278,7 @@ extraction_method: youtube-transcript-api  # or yt-dlp-subs, yt-dlp-metadata-onl
 
 **Auto-generated PT-BR caption quality varies.** Manual captions are reliable; auto-generated PT for casual / informal content (founder interviews, podcasts) often degrades. Downstream consumers should discount confidence when `caption_type: auto-generated` AND `caption_language` starts with `pt`.
 
-**Long lecture transcripts.** A 90-minute talk produces 15–25k words. Well within Claude's context but noticeable. The frontmatter `duration` lets downstream skills budget accordingly.
+**Long lecture transcripts may exceed downstream Read-tool token limits.** A 60–90+ minute talk produces 15–25k words. youtube-transcript-api returns the body as a single text blob (sentences space-joined), and Claude Code's Read tool has a ~25K-token limit per call — line-based pagination via `limit` does not subdivide a one-line blob usefully. **Pre-format at extraction time** when transcript exceeds ~12K words (or video duration > 30 min): split on sentence-ending punctuation (`. ! ?`) and group into ~4-sentence paragraphs in Python before saving. The body becomes paginatable by line / offset; downstream consumers can read it incrementally without scrambling. The frontmatter `duration` lets downstream skills budget accordingly. Validated 5 May 2026 on a 1h28m 20VC podcast (18,137 words, 95KB) — initial Read calls failed with "29754 tokens > 25000 limit" until paragraph-formatting was applied.
 
 **Cloud-IP blocking does not apply at single-user volume on residential IPs.** youtube-transcript-api's widely-reported `RequestBlocked` errors are AWS / GCP / Azure IP-range specific — they don't affect single-user workstation usage on residential connections.
 
