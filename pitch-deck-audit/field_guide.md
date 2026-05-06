@@ -11,11 +11,13 @@ A working playbook for building a fundraise deck from scratch. Slide-by-slide gu
 
 ## About this guide
 
+Built and maintained by **Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an AI-native private credit infrastructure platform in São Paulo, Brazil. This is the build-mode entry point of our pitch-deck-audit kit: the audit kit ([`playbook.md`](playbook.md) + [`lens_template.md`](lens_template.md) + [`cowork_workflow.md`](cowork_workflow.md)) reviews an existing deck against a sector-tuned lens; the Field Guide builds the v1 in the first place. Both ship in the same `pitch-deck-audit/` folder.
+
+**Versioned beta.** This is `v0.1-beta` — the first public release. The substrate has been used internally with founders in our network; the public packaging has not. Bug reports and pushback are wanted — contacts in the footer.
+
 This is a build-mode companion for founders authoring a fundraise deck from scratch. It synthesizes Founder Institute, Sequoia, and McKinsey writing discipline, extended for the 2026 reality of AI-native fundraising. Each slide gets a one-page treatment: what it answers, how to draft it, the red flags to avoid. Each part closes with self-check questions you can run as you build.
 
 **How to use this document.** Read Part 1 in order before opening any slide template — artifact class, two-decks rule, and framework selector are upstream decisions that shape everything downstream. Part 2 is the slide-by-slide build (the canonical 15-slide flow). Part 3 turns the audit rubric into self-checks you run as you draft. Part 4 covers stage-based positioning and AI-era considerations. Part 5 closes with process discipline. If you only have an hour, read Part 1 and Part 2.
-
-**Status.** Versioned beta. Bug reports, disagreements, and pushback welcome — contacts at the bottom.
 
 **Companion tools.** Once you have a v1 deck, [`playbook.md`](playbook.md) (the audit-mode methodology) and [`lens_template.md`](lens_template.md) (the sector-tuned lens system) take over. The Field Guide builds; the audit kit reviews. See [`cowork_workflow.md`](cowork_workflow.md) for the iterative-audit loop in Claude.ai. Send us a v0.5 of your deck when you have one and we will run our tool against it — it is currently in beta and the feedback genuinely helps.
 
@@ -323,16 +325,22 @@ The Field Guide is the Step 0 of the kit — for founders pre-deck. Once you hav
 
 Send us a v0.5 of your deck once you have one and we will run our tool against it.
 
-## Contacts
+---
+
+**Authored by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an AI-native private credit infrastructure platform in São Paulo, Brazil.
+
+Comments, improvements, or questions:
 
 - **Arthur O'Keefe** — [arthur@bamboodcm.com](mailto:arthur@bamboodcm.com)
 - **Felipe Grassi de Moraes** — [felipe@bamboodcm.com](mailto:felipe@bamboodcm.com)
 - **Urian Inhauser** — [urian@bamboodcm.com](mailto:urian@bamboodcm.com)
 
----
-
-*Pitch Deck Field Guide · v0.1-beta · 6 May 2026*
-*Authored by Bamboo DCM · [bamboodcm.com](https://bamboodcm.com) · São Paulo, Brazil*
-*License: [CC-BY 4.0](https://github.com/bamboo-DCM/library/blob/main/LICENSE) — free to share and adapt with attribution.*
+License: [CC-BY 4.0](https://github.com/bamboo-DCM/library/blob/main/LICENSE) — free to share and adapt with attribution.
 
 Sources synthesized: Founder Institute Pitch Structure Guide; J. Skyler Fernandes "The Best Startup Pitch Deck"; Chris Tottman "The Reasons Why Investors Say No"; Frank Rotman five-statement framework; Aaron Dinin "Why Most Fundraising Pitches Fail"; Peter Thiel *Zero to One*; Liran Belenzon "How to Get Multiple Term Sheets in Three Weeks"; a16z Big Ideas 2026; Bessemer Venture Partners ServiceTitan investment memo (publicly published).
+
+Version 0.1-beta · 6 May 2026
+
+---
+
+*This field guide is part of an internal knowledge-systems framework Bamboo DCM has been building for AI-native execution in regulated finance. If the broader framework is interesting, get in touch — we're publishing more in the coming weeks.*
