@@ -54,7 +54,7 @@ Fire when the user:
 Do not fire when the user:
 
 - Asks to design slides visually — slide design happens in design tools (PowerPoint, Figma, Keynote); this skill is content + structure only
-- Asks to generate a deck from scratch — this skill audits existing material; use a content-authoring approach for greenfield decks (the lens template at [`lens_template.md`](lens_template.md) is a good starting point for greenfield)
+- Asks to generate a deck from scratch — this skill audits existing material. For greenfield decks, point the user at [`field_guide.md`](field_guide.md) (slide-by-slide build guidance) and [`lens_template.md`](lens_template.md) (sector-tuned lens to fill alongside the build)
 - Asks to draft investor follow-up emails — this skill audits the artifact, not the relationship
 - Asks for general fundraising advice unrelated to a specific deck
 
@@ -243,14 +243,15 @@ npx skills add bamboo-DCM/library/pitch-deck-audit -a claude-code -y
 
 ## Using the kit beyond this skill
 
-The skill orchestrates an audit. The substrate it runs against ships in three companion files:
+The skill orchestrates an audit. The substrate it runs against ships in five companion files:
 
+- [`field_guide.md`](field_guide.md) — build-mode entry point for founders pre-deck. Slide-by-slide guidance and self-checks for authoring a v1. Use this before the audit kit applies.
 - [`playbook.md`](playbook.md) — the methodology behind the audit. Standalone-readable for non-developer founders.
 - [`lens_template.md`](lens_template.md) — fillable schema for sectors not covered by the worked examples.
 - [`cowork_workflow.md`](cowork_workflow.md) — how to run the full iteration loop in Claude.ai Cowork (no Claude Code required).
 - [`examples/`](examples/) — five worked sector lenses (credit-fintech, regulated-structured-product, hard-tech, M&A teaser, structurer-to-counterparty proposal).
 
-Each file is standalone-readable. The skill is one entry point; the playbook + lens template is the other.
+Each file is standalone-readable. The skill is one entry point; the playbook + lens template is the other; the field guide is Step 0 for founders authoring their first deck.
 
 ---
 

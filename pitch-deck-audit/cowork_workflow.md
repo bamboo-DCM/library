@@ -6,6 +6,8 @@
 
 **~30 minutes to get the loop running for the first time.**
 
+> **Step 0 — if you don't yet have a deck, start at [`field_guide.md`](field_guide.md).** The Cowork loop below is built around iterative *audits* of an existing deck. If you are still drafting your first version, the field guide is the build-mode entry point: slide-by-slide guidance, self-check questions, and the upstream decisions worth locking before you draft. Come back here once you have a v1.
+
 ---
 
 ## 1. About this guide
