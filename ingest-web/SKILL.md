@@ -10,8 +10,8 @@ description: >-
   files. DO NOT TRIGGER when: user asks to fetch a URL for one-time reading without
   saving (use WebFetch directly), process local documents, or needs structured data
   extraction from web pages.
-version: 1.4.1-share
-updated: 5 May 2026
+version: 1.5.0-share
+updated: 19 May 2026
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
 license: Free to share and adapt with attribution
@@ -65,7 +65,9 @@ Refer to [web_ingestion_methods.md](web_ingestion_methods.md) for the full decis
 
 **YouTube URLs route to Method 6 BEFORE Defuddle.** If `$URL` matches `youtube.com/watch?v=`, `youtu.be/`, `youtube.com/shorts/`, or `youtube.com/embed/`, jump to step 2b (YouTube branch) and skip the Defuddle / Jina / WebFetch chain entirely. Those three return page chrome (comments + nav) on YouTube, not the transcript — silent failure mode.
 
-Default priority for single public pages (non-YouTube):
+**Archive-shape URLs route to Method 7 BEFORE Defuddle.** If `$URL` matches archive patterns — path with `/archive`, `/feed`, `/rss`, `/atom`, `/atom.xml`, `/posts`, `/all`; bare domain with no article path (`https://example.substack.com/`, `https://example.com/`); or Substack URL with no `/p/{slug}` — jump to Method 7 (RSS archive extraction in [web_ingestion_methods.md](web_ingestion_methods.md)). The Defuddle / Jina / WebFetch chain returns ~200 words of post-listing chrome on archive URLs, not article content — same silent-failure shape as YouTube. Behavioral fallback: if Defuddle returns under 300 words with feed-shape markers (multiple `<title>` tags or repeated `/p/{slug}` links to same domain), retry as Method 7. For bulk-capture mode, Method 7 enumerates the feed and ingests every item as a separate markdown file.
+
+Default priority for single public pages (non-YouTube, non-archive):
 
 1. **Defuddle API** (simplest, no install)
 2. **Jina Reader API** (fallback, handles JS-rendered pages)
