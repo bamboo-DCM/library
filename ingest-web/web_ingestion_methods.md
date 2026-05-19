@@ -4,8 +4,8 @@ companion-to: SKILL.md
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
 license: Free to share and adapt with attribution
-version: 1.2.5-share
-updated: 5 May 2026
+version: 1.3.0-share
+updated: 19 May 2026
 ---
 
 # Web Ingestion Methods
@@ -29,6 +29,7 @@ Reference for downloading and converting web content to markdown for ingestion i
 ## Decision Tree
 
 **YouTube video URL** → Method 6 below (youtube-transcript-api + yt-dlp). Defuddle / Jina / WebFetch ALL return page chrome on YouTube URLs — never use the standard chain on `youtube.com/watch?v=...` or `youtu.be/...`.
+**Archive / feed URL** → Method 7 below (RSS extraction). Defuddle / Jina / WebFetch return menu chrome / post listings on archive URLs (`/archive`, `/feed`, `/rss`, Substack bare-domain) — same failure shape as YouTube.
 **Single public page, quick grab** → Defuddle API or Jina Reader API
 **Single page, need full control** → Defuddle CLI
 **JS-heavy or SPA page** → Jina Reader API (runs headless Chrome)
@@ -286,6 +287,114 @@ extraction_method: youtube-transcript-api  # or yt-dlp-subs, yt-dlp-metadata-onl
 
 **Music videos, vlogs without substantive speech, shorts <60s.** Often produce useful-sounding metadata but empty / silence-marker transcripts. The low-signal alert (above) catches this. Don't pretend a `[Music]`-only transcript is content.
 
+## Method 7: RSS archive extraction (archive-shape URLs)
+
+Archive pages — `*.substack.com/archive`, blog indexes, bare domains — defeat the Defuddle → Jina → WebFetch chain the same way YouTube does. Defuddle on `diegocbarreto.substack.com/archive` (16 May 2026) returned 210 words of post listings (titles + dates, no article body); Jina degrades similarly; WebFetch returns chrome. Same silent-failure shape as YouTube; needs a dedicated branch.
+
+**URL detection.** Any URL matching one of these triggers Method 7:
+- Path contains `/archive`, `/feed`, `/rss`, `/atom`, `/atom.xml`, `/posts/`, `/all`.
+- Bare domain with no article path: `https://example.substack.com/`, `https://example.com/`.
+- Substack URL with no `/p/{slug}`: `*.substack.com` or `*.substack.com/archive`.
+
+**Behavioral fallback** (when URL pattern doesn't match but extraction returns archive shape): if Defuddle returns under 300 words AND the body contains multiple post-title markers (multiple `<title>` tags or repeated `/p/{slug}` links to same domain), retry as Method 7.
+
+### Tier 1 — RSS feed fetch + parse
+
+```bash
+# Construct feed URL — for Substack, replace any path with /feed
+URL_INPUT="$URL"
+base=$(echo "$URL_INPUT" | sed -E 's|(https?://[^/]+).*|\1|')
+
+# Try /feed, /rss, /atom.xml, /feed/ in order — stop at first 200 with valid feed markup
+feed_url=""
+for candidate in "${base}/feed" "${base}/rss" "${base}/atom.xml" "${base}/feed/"; do
+  http_code=$(curl -s -o /tmp/archive_feed.xml -w "%{http_code}" "$candidate")
+  if [ "$http_code" = "200" ] && grep -q "<rss\|<feed" /tmp/archive_feed.xml; then
+    feed_url="$candidate"
+    break
+  fi
+done
+
+# Parse RSS or Atom with Python
+python3 << 'PYEOF'
+import re, json
+with open('/tmp/archive_feed.xml') as f:
+    content = f.read()
+
+is_atom = '<feed' in content[:500] and 'xmlns="http://www.w3.org/2005/Atom"' in content[:500]
+item_tag, date_tag = ('entry', 'published') if is_atom else ('item', 'pubDate')
+
+items = re.findall(rf'<{item_tag}>(.*?)</{item_tag}>', content, re.DOTALL)
+out = []
+for item in items:
+    title_m = re.search(r'<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</title>', item, re.DOTALL)
+    date_m = re.search(rf'<{date_tag}>(.*?)</{date_tag}>', item)
+    link_m = re.search(r'<link>(.*?)</link>', item) or re.search(r'<link[^/>]*href="([^"]+)"', item)
+    content_m = (re.search(r'<content:encoded>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</content:encoded>', item, re.DOTALL)
+                 or re.search(r'<content[^>]*>(.*?)</content>', item, re.DOTALL))
+    body_words = len(re.sub(r'<[^>]+>', ' ', content_m.group(1)).split()) if content_m else 0
+    out.append({
+        'title': (title_m.group(1) if title_m else '').strip(),
+        'date': (date_m.group(1) if date_m else '')[:16],
+        'link': link_m.group(1) if link_m else '',
+        'words': body_words,
+    })
+
+with open('/tmp/archive_items.json', 'w') as f:
+    json.dump(out, f, indent=2)
+print(f"Parsed {len(out)} items ({'Atom' if is_atom else 'RSS'} feed)")
+PYEOF
+```
+
+Output: per-item title, publication date, article URL, body word count. Saved to `/tmp/archive_items.json` for downstream consumption.
+
+### Tier 2 — fallback to scraping the archive HTML
+
+If no feed URL returns 200 with valid feed markup, fall back to scraping the archive page HTML via Defuddle and parsing the post-listing structure. Substack archive pages render post titles as `<a>` tags with `/p/{slug}` paths. Extract these via regex. Less reliable than RSS — only use as fallback.
+
+### Tier 3 — explicit failure with user-facing alert
+
+If neither RSS nor HTML scraping yields items, surface to user:
+
+```
+⚠️ Archive enumeration failed for {URL}.
+   Reason: no RSS feed at /feed, /rss, /atom.xml; archive HTML did not match post-listing patterns.
+   Options:
+     (a) provide individual article URLs separately
+     (b) supply the feed URL explicitly if you know it
+     (c) skip
+```
+
+### What gets saved (bulk-capture variant)
+
+For `/ingest-web` invocations on an archive URL: by default, enumerate the feed and **ingest every item** as a separate markdown file in `inbox/` (or the user-specified destination). Each item goes through Methods 1-3 (Defuddle / Jina / WebFetch) on its individual article URL. The archive page itself is not saved.
+
+If a per-invocation cap is supplied by the consuming workflow (e.g., an autonomous-loop cap), respect it as a maximum item count.
+
+For relevance-assessment routing skills (where they exist): each enumerated item gets a verdict; only items the user picks get routed.
+
+### Frontmatter additions for archive-sourced ingestions
+
+```yaml
+source_type: archive-rss
+archive_url: https://example.substack.com/archive
+feed_url: https://example.substack.com/feed
+item_count: 4              # total items found in feed
+item_position: 3           # this item's position in the feed (1-based, newest = 1)
+```
+
+### Gotchas
+
+**Substack RSS is truncated to recent N items.** Substack RSS feeds default to ~20-25 most recent posts. For older archives (e.g., a Substack with 200+ posts), RSS misses everything older than the cutoff. Fall back to scraping the archive HTML pagination (Substack uses `/archive?sort=new&offset=N`) — but this is much more fragile. For one-time exhaustive ingestion, the Substack data export via account settings is the right tool, not this skill.
+
+**Atom feeds (`<feed>` namespace) need different parse logic.** Most Substacks use RSS; many institutional blogs use Atom. The detection block in Tier 1 routes based on root tag (`<rss>` vs `<feed>`). Item tag is `<item>` in RSS, `<entry>` in Atom; date tag is `<pubDate>` in RSS, `<published>` in Atom. Link in Atom is `<link href="..."/>` (attribute), not text content like RSS.
+
+**LinkedIn and X.com don't have public RSS.** Substacks, WordPresses, Ghost blogs, and most institutional research sites do. LinkedIn Pulse, X.com author feeds, Slack/Discord/proprietary platforms don't — these need different ingestion paths (manual paste, OAuth-authenticated scrape, etc.). For source-registry-style entries on these platforms, mark `Feed URL: —` (no feed available) rather than guessing.
+
+**Substack `/feed` does not require authentication for free posts.** Paid-only posts in a Substack feed appear with title + description but the `<content:encoded>` block is empty or truncated. Body word count will be 0 or near-0 for paid-only posts — flag these in the candidate list so the user knows they can't be fully ingested without a subscription.
+
+*Source: 16 May 2026 archive routing — Defuddle on a Substack archive URL returned 210 words of post listings (no article body); manual workaround was RSS fetch + Python parse. Codifying so future archive combs route deterministically. Sibling of Method 6 (YouTube transcript chain) — same failure shape at a different URL pattern.*
+
 ## Source-layer fallbacks (when the URL itself is the problem)
 
 If the live URL is dead, 404s, or is fully paywalled with no bypass:
@@ -296,6 +405,18 @@ If the live URL is dead, 404s, or is fully paywalled with no bypass:
 - **Nitter mirrors** — for X/Twitter when the main site rate-limits or paywalls. Public instance list at `github.com/zedeus/nitter/wiki/Instances`.
 
 These are source-routing changes, not parser swaps — they change *which URL you fetch*, not *how you parse it*.
+
+## Publisher-class blockers (silent extraction failures)
+
+Some publisher classes systematically defeat Defuddle → Jina → WebFetch with **no error code surfacing to the orchestrator** — the fetch returns "successfully" but the body is null / chrome / 30-word error page. Pre-flight at fetch-batch composition time matters more than recovery after the surprise.
+
+- **CNBC, WSJ, FT, and similar large-publisher news sites** run Varnish / Cloudflare bot-detection that returns 503 Service Unavailable to BOTH Defuddle AND Jina. The extraction looks "available" but the body is null / 30-word error page. **Plan B at composition time:** identify corroborating coverage from extraction-friendly sources (Fortune, Reuters, Wired, Bloomberg articles often cover the same story); use that as the substrate-primary URL with the bot-blocked URL retained in registry as `corroborating_source_url` only. Validated 13 May 2026: a CNBC piece returned 503 via both Defuddle and Jina; recovered via Fortune coverage of the same story.
+
+- **Marketing landing pages with PDF-gated reports** (agency-style report landings, consulting-firm research portals) return menu chrome only via Defuddle — a few hundred words of navigation links / year selectors / "Download the report" CTAs, no actual report content. **Plan B at composition time:** check for a companion Substack / blog narrative version (firm Substacks frequently publish the narrative essay same-day as the gated report; consulting-firm reports often have community-side narrative coverage from analysts who summarized them); the narrative substrate is often denser than the landing-page chrome. Validated 13 May 2026: a research-firm landing page returned 144 words of menu chrome via Defuddle; recovered via the same firm's companion Substack narrative at 566 words.
+
+**First signal** that you've hit one of these: the word-count of the extraction is anomalously low (CNBC: ~30 words; marketing landing: ~140 words; vs. expected 1,500–4,000 words for a real article). Treat low word-count as the silent-failure indicator and check the body for either a Varnish/error response (publisher bot-block) or menu navigation only (landing page).
+
+**Fire moment:** any parallel-fetch batch that includes URLs from CNBC / WSJ / FT / Reuters.com / Bloomberg.com or marketing landing pages with PDF-gated reports. Compose the batch with named-fallback URLs at composition time, not as recovery after the surprise.
 
 ## Workflow Integration
 
