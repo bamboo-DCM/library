@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 28 May 2026
+
+- **[ingest-web/web_ingestion_methods.md]** NEW § Per-architecture extraction patterns (catalog) added to Method 7 — empirical Jina-extraction primitives by publisher site framework (Substack `/archive`, Squarespace `?format=rss` with 20-item cap, Hugo homepage, Next.js publisher-style, Framer SPA, NextJS-SPA sitemap-fallback, LinkedIn Pulse aggregator). Names two failure modes to defend against: sparse-homepage trap + RSS-cap-hides-the-archive trap (the Tomasz Tunguz case at 10-item RSS vs 150+-post homepage covering 7+ months). Per-source documentation discipline points back at the consumer's source registry. Public-mirror propagation of internal master edit; workstation-specific phrasings abstracted; "sources confirmed" column dropped on this mirror to keep public catalog source-anonymous. Per-skill CHANGELOG sibling entry v1.5.2-share at `ingest-web/CHANGELOG.md`. Source: a 28 May 2026 multi-source enumeration sweep surfaced the per-architecture Jina-fitness variation. — @arthur-bamboo
+
 ## 26 May 2026
 
 - **[ingest-web/CHANGELOG.md (NEW)]** Per-skill CHANGELOG.md sibling landed at `ingest-web/CHANGELOG.md` documenting public-share version history v1.2.1-share → v1.5.1-share. Keep-a-Changelog format; mirrors the internal workstation per-skill CHANGELOG.md created same session under `active/knowledge-systems/registry-rationale-split/` Phase 1. Audience-public phrasing (no internal-tool references, no proprietary paths); content carries Method 6 IP-class block diagnostic (v1.5.1-share, same substance as the 25 May entry above on `web_ingestion_methods.md`), Method 7 RSS archive extraction (v1.5.0-share), Publisher-class blockers pre-flight, Method 6 cross-platform fix, YouTube transcript chain. Repo-wide notes continue to live in this top-level `CHANGELOG.md`; the per-skill sibling carries detailed per-version delta narrative for the skill specifically. No `SKILL.md` frontmatter version bump in this PR (v1.5.0-share remains; v1.5.1-share substrate edit lived in `web_ingestion_methods.md` per the 25 May entry below). — @arthur-okeefe
