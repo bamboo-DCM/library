@@ -1,6 +1,6 @@
 ---
 skill: ingest-web
-updated: 26 May 2026
+updated: 28 May 2026
 ---
 
 # ingest-web — CHANGELOG
@@ -8,6 +8,20 @@ updated: 26 May 2026
 Public mirror of the `/ingest-web` skill. Pointer: [SKILL.md](SKILL.md) · [web_ingestion_methods.md](web_ingestion_methods.md).
 
 Repo-wide notes live at [../CHANGELOG.md](../CHANGELOG.md); this file documents per-version delta narrative for the skill specifically.
+
+---
+
+## [1.5.2-share] — 28 May 2026
+
+### Added
+
+- **`web_ingestion_methods.md` Method 7 — NEW § Per-architecture extraction patterns (catalog).** Empirical catalog of per-architecture Jina-extraction primitives by publisher site framework. Each row pairs the architecture (Substack / Squarespace / Hugo blog / Next.js publisher-style / Framer SPA / NextJS-SPA sitemap-fallback / LinkedIn Pulse aggregator) with the working `curl` primitive against Jina and the expected output shape. Save the re-discovery cost on novel sources by matching the publisher's stack to the catalog entry.
+- **Two failure modes named explicitly:** (a) sparse-homepage trap — Substack-class sites return image/header chrome on the bare homepage; the `/archive` path is the actual enumeration surface (test: if homepage Jina returns <500 words, switch to `/archive`); (b) RSS-cap-hides-the-archive trap — Substack 20-item / Squarespace 20-item / Hugo `/index.xml` ~10-item caps are invisible from the feed itself; assuming "feed = archive" silently misses 90%+ of recent cadence on high-frequency publishers.
+- **Per-source documentation discipline pointer** — when discovering a working primitive for a new source, document it inline on that source's row in your source registry per your project's access-mechanics-documentation convention. The catalog is the pattern-class generalization; the registry row is the per-source application.
+
+### Source
+
+28 May 2026 multi-source enumeration sweep across 8 Tier-1 publisher sources — Jina primitive worked first-try on 5 of 8 with the obvious path; required `/archive` retry on 2; required `/library` retry on 1. Codified during a multi-session content-ingestion retrospective. Substrate-only edit (no `SKILL.md` change); patch-version bump on this CHANGELOG sibling.
 
 ---
 

@@ -395,6 +395,30 @@ item_position: 3           # this item's position in the feed (1-based, newest =
 
 *Source: 16 May 2026 archive routing — Defuddle on a Substack archive URL returned 210 words of post listings (no article body); manual workaround was RSS fetch + Python parse. Codifying so future archive combs route deterministically. Sibling of Method 6 (YouTube transcript chain) — same failure shape at a different URL pattern.*
 
+### Per-architecture extraction patterns (catalog)
+
+Empirical catalog of per-architecture Jina-extraction primitives — captured 28 May 2026 after a multi-source archive enumeration sweep revealed that Jina's behavior varies wildly by site framework. **Tier 1 RSS routine (above) is still the default**; this catalog covers the cases where RSS is missing, capped, or hides the bulk of the archive. Save the re-discovery cost on novel sources by matching the publisher's stack to the entry below.
+
+| Architecture | Working primitive (Jina) | Expected output shape |
+|---|---|---|
+| **Substack** | `curl -s "https://r.jina.ai/https://{subdomain}.substack.com/archive"` | 30-50 post links with titles + dates inline; one anchor per post; reverse-chrono. Homepage is sparser (returns image-only or 5-10 most-recent links). |
+| **Squarespace** | `curl -s "https://r.jina.ai/https://{site}/{author}?format=rss"` | XML feed; **20-item cap** is hard structural limit per Squarespace platform spec — deeper archive requires HTML pagination on `/essays` or category pages. |
+| **Hugo blog (static site)** | `curl -s "https://r.jina.ai/https://{site}/"` (homepage) | 100-200+ post links with date + title + abstract per post in single ~10K-line response. Often covers ~6-12 months of cadence in one fetch. RSS at `/index.xml` is typically capped to most-recent 10. |
+| **Next.js publisher-style** | `curl -s "https://r.jina.ai/https://{site}/{section}"` | Full index in ~10 lines with all post titles + dates inline (one anchor per post; Featured + reverse-chrono). No RSS, no sitemap — Jina extracts the JSX-rendered DOM cleanly. |
+| **Framer SPA** | `curl -s "https://r.jina.ai/https://{site}/{section}/"` | Article cards with title + author + abstract inline; sitemap at `/sitemap.xml` is the durable fallback for older archive (reverse-chrono URL list, no per-piece dates). |
+| **NextJS-SPA (sitemap-fallback)** | `curl -s "https://r.jina.ai/https://{site}/library"` (or equivalent index page; `/posts/all` often 404s) | ~50 post links; sitemap.xml at `/sitemap.xml` is the structural enumeration source for deeper archive. Direct `/feed`, `/rss`, `/atom.xml` typically all 404. |
+| **LinkedIn Pulse aggregator** | `curl -s "https://r.jina.ai/https://{corporate-domain}/rss"` (when corporate exposes one) | RSS feed; broad-topic aggregator across all author/employee Pulse content; **high dedup-heavy** — most items off-topic for narrow-domain consumption. |
+
+**The two failure modes to defend against** (named here so future agents don't waste round-trips re-discovering them):
+
+1. **Sparse-homepage trap.** Some Substack-class sites return only image/header chrome on the bare homepage; the `/archive` path is the actual enumeration surface. Test: if homepage Jina returns <500 words and you expect a real archive, switch to `/archive` before giving up.
+
+2. **RSS-cap-hides-the-archive trap.** Substack default 20-item cap, Squarespace 20-item cap, Hugo `/index.xml` ~10-item cap. **The cap is invisible from the feed itself** — assuming "feed = archive" silently misses 90%+ of recent cadence on a high-frequency publisher. When in doubt, fetch the homepage / `/archive` path as the source of truth on archive completeness.
+
+**Per-source documentation discipline.** When discovering a working primitive for a new source, document it inline on that source's row in your source registry per your project's access-mechanics-documentation convention. The catalog above is the pattern-class generalization; the registry row is the per-source application.
+
+*Source: 28 May 2026 multi-source enumeration sweep — Jina primitive worked first-try on 5 of 8 publisher sources with the obvious path; required `/archive` retry on 2; required `/library` retry on 1. Per-architecture pattern catalog landed during a multi-session content-ingestion retrospective.*
+
 ## Source-layer fallbacks (when the URL itself is the problem)
 
 If the live URL is dead, 404s, or is fully paywalled with no bypass:
