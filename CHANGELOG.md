@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 26 June 2026
+
+- **[ingest-web/web_ingestion_methods.md]** § Workflow Integration genericized — the post-extraction routing line referenced repo-specific intake skills that don't exist outside the originating workstation; replaced with audience-neutral phrasing ("route it through your repo's own intake/triage workflow") so the public doc carries no environment-specific tool references. Public-audience / Multi-User hygiene. — @arthur-okeefe
+
 ## 28 May 2026
 
 - **[ingest-web/web_ingestion_methods.md]** NEW § Per-architecture extraction patterns (catalog) added to Method 7 — empirical Jina-extraction primitives by publisher site framework (Substack `/archive`, Squarespace `?format=rss` with 20-item cap, Hugo homepage, Next.js publisher-style, Framer SPA, NextJS-SPA sitemap-fallback, LinkedIn Pulse aggregator). Names two failure modes to defend against: sparse-homepage trap + RSS-cap-hides-the-archive trap (the Tomasz Tunguz case at 10-item RSS vs 150+-post homepage covering 7+ months). Per-source documentation discipline points back at the consumer's source registry. Public-mirror propagation of internal master edit; workstation-specific phrasings abstracted; "sources confirmed" column dropped on this mirror to keep public catalog source-anonymous. Per-skill CHANGELOG sibling entry v1.5.2-share at `ingest-web/CHANGELOG.md`. Source: a 28 May 2026 multi-source enumeration sweep surfaced the per-architecture Jina-fitness variation. — @arthur-bamboo
