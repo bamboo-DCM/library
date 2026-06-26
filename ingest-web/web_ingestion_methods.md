@@ -444,7 +444,7 @@ Some publisher classes systematically defeat Defuddle → Jina → WebFetch with
 
 ## Workflow Integration
 
-After extracting content, drop the resulting markdown file into `inbox/` and process per the `/inbox-triage` skill. For deal-related content, follow the `/deal-ingest` skill instead.
+After extracting content, drop the resulting markdown file into your repo's intake folder (e.g. `inbox/`) and route it through your repo's own intake/triage workflow.
 
 Suggested filename convention: `{domain}_{slug}_{YYYY-MM-DD}.md` (e.g., `bloomberg_brazil-rate-decision_2026-03-14.md`).
 
