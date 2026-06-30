@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 30 June 2026
+
+- **[readability-editing-methodology/ — NEW standalone framework]** Published the **Readability-Editing Methodology** — a runnable diagnose→refine process for making writing as easy to read as its ideas allow (fix the real levers of reading difficulty, not a readability score). Carries the metric-trap principle (a score is a flag, never a target — the tree-bark gaming trap), the six levers (abstraction density · concreteness · cohesion · sentence-variation/recovery · structural variation · term-glossing) each as signal→move→floor/ceiling check, the intrinsic-vs-extraneous-load discriminator (the editor's core judgment) + a no-edit restraint terminal, a floor-AND-ceiling (dumbing-down and over-formalization as symmetric failures), and the **gate it can't game** — measurably-easier (a corroborating flag, never a veto) + not-dumbed + on-floor + meaning-preserved via a blocking, blind, independently-re-derived claim-diff. Reading-science-grounded (Gopen & Swan, Williams, Cowan, Haviland & Clark, ISO 24495-1, plain-language movement), bilingual-aware. Public extract of an internal canon doc; the internal prior-art/consolidation map + environment-specific tool references were dropped for the public surface (the methodology stands alone). README "Available now" table updated. Public-audience / Multi-User hygiene: genericized (no internal tool/file references, no personnel/deal/entity content). — @arthur-okeefe
+
 ## 26 June 2026
 
 - **[ingest-web/web_ingestion_methods.md]** § Workflow Integration genericized — the post-extraction routing line referenced repo-specific intake skills that don't exist outside the originating workstation; replaced with audience-neutral phrasing ("route it through your repo's own intake/triage workflow") so the public doc carries no environment-specific tool references. Public-audience / Multi-User hygiene. — @arthur-okeefe
