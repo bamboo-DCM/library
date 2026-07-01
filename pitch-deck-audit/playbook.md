@@ -800,7 +800,7 @@ Found a bug? Disagreement? Open an issue at [github.com/bamboo-DCM/library](http
 
 ---
 
-**Authored by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an AI-native private credit infrastructure platform in São Paulo, Brazil.
+**Authored by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top.
 
 Comments, improvements, or questions:
 

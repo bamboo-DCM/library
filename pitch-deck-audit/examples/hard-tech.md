@@ -383,7 +383,7 @@ energy-procurement relationships that took [N] years to build.
 
 ---
 
-**Authored by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an AI-native private credit infrastructure platform in São Paulo, Brazil.
+**Authored by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top.
 
 Comments, improvements, or questions:
 

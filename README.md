@@ -1,6 +1,6 @@
 # Bamboo DCM — Library
 
-Open-source assets — Claude Code skills, playbooks, and frameworks — published by [**Bamboo DCM**](https://bamboodcm.com), an AI-native private credit infrastructure platform in São Paulo, Brazil.
+Open-source assets — Claude Code skills, playbooks, and frameworks — published by [**Bamboo DCM**](https://bamboodcm.com), the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top.
 
 These are pieces of the operating model we use internally. We're publishing them as we go because the firm's competitive surface is the operating model itself, and the operating model gets stronger when others can pressure-test it.
 
@@ -74,4 +74,4 @@ Issues and pull requests are welcome. We don't promise SLAs on either, but we re
 
 ---
 
-*These assets are part of an internal knowledge-systems framework Bamboo DCM has been building for AI-native execution in regulated finance. We're publishing more in the coming weeks — if the broader framework is interesting, get in touch.*
+*These assets are part of an internal knowledge-systems framework Bamboo DCM has been building for AI-native execution in regulated finance. We're publishing more as we package them — if the broader framework is interesting, get in touch.*
