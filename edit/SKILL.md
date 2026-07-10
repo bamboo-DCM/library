@@ -15,7 +15,7 @@ description: >-
   defect / AI-pattern / brand check (use a linter); to draft net-new content (use
   a content-authoring approach); a named-recipient message; or a literal file
   edit (use the editor directly).
-version: 0.3.0-share
+version: 0.4.0-share
 updated: 1 Jul 2026
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
@@ -173,11 +173,11 @@ leg (a) measurably easier   [ADJUDICATED FLAG — never a veto]
   recovery/density:  {model-assisted read — did a lower-density sentence follow the high-density one?}
   score delta:       {FK/Fog flag, direction only}
   adjudication:      {corroborates §4 judgment | DISAGREES → adjudicated against §4 → {keep edit / revisit}}
-leg (b) not dumbed down     [HARD-AND]:  {PASS | FAIL — reason}
+leg (b) not dumbed down     [HARD-AND]:  {✅ PASS | 🔴 FAIL — reason}
   below-floor grade alarm:  {tool FK vs band floor}
   home-vocab term-diff:     {keep-list — any term stripped?}
   content-drop:             {model — any claim/precision lost?}
-leg (c) on-floor+ceiling    [HARD-AND]:  {PASS | FAIL — reason}
+leg (c) on-floor+ceiling    [HARD-AND]:  {✅ PASS | 🔴 FAIL — reason}
   jargon screen:            {keep-list match + new-signaling (model)}
   register-inflation:       {model — manufactured formality / over-glossing?}
 leg (d) meaning preserved   [HARD-AND, BLOCKING]:  PENDING
@@ -186,9 +186,12 @@ leg (d) meaning preserved   [HARD-AND, BLOCKING]:  PENDING
   --- HELD-OUT TEXT B ---
   {the other text}
   (the A/B ↔ original/edit mapping is WITHHELD from the confirming party — see boundary rule above)
-STATUS:  PENDING — edit NOT shipped.   ⚠️ HUMAN-READ-REQUIRED
-NEXT:    leg-(d) blind independent confirm (diff-anchored, 3-reader consensus — § Leg-(d) wiring) → unanimous-clean applies the edit; unanimous-drift → return to Step 2; a split → ESCALATE to the human read.
+STATUS:   PENDING — edit NOT shipped.   ⚠️ HUMAN-READ-REQUIRED
+OVERALL:  ✅ CLEAN (apply) / 🟡 DRIFT (re-diagnose → Step 2) / ⚠️ ESCALATE (human read)   — set by --rollup
+NEXT:     leg-(d) blind independent confirm (diff-anchored, 3-reader consensus — § Leg-(d) wiring) → unanimous-clean = ✅ CLEAN; unanimous-drift = 🟡 DRIFT; a split = ⚠️ ESCALATE.
 ```
+
+> **Gate glyphs.** Legs read `✅ PASS` / `🔴 FAIL`; the overall verdict reads `✅ CLEAN (apply)` / `🟡 DRIFT (re-diagnose)` / `⚠️ ESCALATE (human read)`. The gate summary sits ABOVE the refined text (never tokenizes it); the read-only NO-EDIT terminal is unchanged.
 
 **If (b) or (c) FAILS**, the skill does not emit the held-out texts — it returns to Step 2 with the failing leg named. Leg-(d)'s `PENDING` is reached only when (b)/(c) clear.
 
