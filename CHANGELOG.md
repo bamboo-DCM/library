@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 10 July 2026
+
+- **[edit/ v0.3.0→0.4.0-share — GATE RESULT palette alignment]** Aligned the `--apply` GATE RESULT block to a scannable status palette: legs (b)/(c) render `✅ PASS` / `🔴 FAIL`, and the overall verdict reads `✅ CLEAN (apply)` / `🟡 DRIFT (re-diagnose)` / `⚠️ ESCALATE (human read)`. The gate summary sits above the refined text (never tokenizes it); the read-only NO-EDIT terminal is unchanged. Presentation-only — no behavior change. — @arthur-okeefe
+
 ## 1 July 2026
 
 - **[edit/ — NEW skill]** Published **`/edit`**, the readability editor — the executable layer on top of the Readability-Editing Methodology (also in this repo). Runs a diagnose→propose→refine→gate-check sequence: shells out to a deterministic diagnostic (`readability_diag.py`) for the countable flags (readability scores, sentence-length variance, nominalization density — flags, never targets), judges intrinsic-vs-extraneous load in-model, and on `--apply` runs the **gate it can't game** — measurably-easier (an adjudicated flag, never a veto) + not-dumbed-down + on-floor-under-ceiling + meaning-preserved via a **blocking, blind, independently-re-derived** claim-diff wired out-of-model (`blind_meaning_confirm.py` blinds the two texts + emits a diff-anchored brief → three blind readers → a mechanical consensus roll-up). Read-only default (`--apply` refines + gates); voice-neutral; a NO-EDIT restraint terminal; bilingual-aware. Ships `SKILL.md` + the two co-located stdlib tools (Python 3.8+, no deps). README "Available now" table updated. Public-audience / Multi-User hygiene: genericized from the internal canonical — Bamboo-specific grade-band and buyer's-vocabulary anchors marked as examples, build-provenance + internal skill/tool references dropped, no personnel/deal/entity content. — @arthur-okeefe
