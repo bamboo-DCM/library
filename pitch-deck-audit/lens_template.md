@@ -310,7 +310,7 @@ When Claude rewrites slides or generates new copy, apply these:
 - **Short sentences. Active voice.** No more than 15 words per slide bullet.
 - **Numbers over adjectives.** Replace "rapid growth" with "4.4×." Replace "low default" with "sub-2% lifetime loss across three vintage cohorts."
 - **Specific over generic.** Name the addressable customer count and the geography in one phrase — abstract numbers ("a large opportunity") read as filler.
-- **Match the language to the audience.** English for international investors; Portuguese (or the local language) for local institutional allocators. The deck should be available in both. If the round is led locally, lead with the local language.
+- **Match the language to the audience.** English for international investors; Portuguese (or the local language) for local institutional investors. The deck should be available in both. If the round is led locally, lead with the local language.
 - **No AI vocabulary.** Avoid: leverage, robust, comprehensive, holistic, synergy, actionable, impactful, cutting-edge, best-in-class, paradigm, revolutionize. Use plain words.
 - **No filler.** Every slide should pass the test: *if I deleted this slide, would the deck be worse?* If the answer is no, delete it.
 

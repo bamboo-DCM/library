@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 13 July 2026
+
+- **[repo-wide — boilerplate/CTA consistency + terminology fix]** Brought every public asset up to a uniform attribution + positioning + CTA standard and fixed a positioning self-contradiction. (1) **readability-editing-methodology** was the outlier — added the canonical positioning descriptor ("the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top") to the intro, and upgraded its footer from a thin CC-BY line to the full attribution block (positioning + three contacts inline + license + the knowledge-systems-framework forward CTA) matching the other standalone deliverables. (2) Added the missing closing forward CTA to `edit/SKILL.md` and `pitch-deck-audit/playbook.md` (both carried attribution but lacked the "part of a knowledge-systems framework / get in touch" hook the other primary entry points ship). (3) **Terminology fix** — "allocator" was used in `readability_editing_methodology.md` and `edit/SKILL.md` as a KEEP example of buyer's-home-vocabulary, which contradicts the firm's own register discipline (a fund manager does not call itself an "allocator"; it fails the doc's own "would the reader say this to a peer?" test) → replaced with "tranche"; softened generic "institutional allocators" → "institutional investors" in `lens_template.md`. Scoped to boilerplate + house-style terminology; no behavior/substance change. — @arthur-okeefe
+
 ## 10 July 2026
 
 - **[edit/ v0.3.0→0.4.0-share — GATE RESULT palette alignment]** Aligned the `--apply` GATE RESULT block to a scannable status palette: legs (b)/(c) render `✅ PASS` / `🔴 FAIL`, and the overall verdict reads `✅ CLEAN (apply)` / `🟡 DRIFT (re-diagnose)` / `⚠️ ESCALATE (human read)`. The gate summary sits above the refined text (never tokenizes it); the read-only NO-EDIT terminal is unchanged. Presentation-only — no behavior change. — @arthur-okeefe
