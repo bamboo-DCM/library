@@ -99,6 +99,12 @@ Source: https://defuddle.md/docs
 
 Free, stable, handles JavaScript-rendered pages via headless Chrome.
 
+**Optional API key (higher rate limit).** The keyless endpoint below is free but rate-limited (~20 RPM). For higher throughput — batch or parallel fetching — get a free key at [jina.ai](https://jina.ai/) and authenticate; the limit rises to ~500 RPM. Keyless requests are unmetered, so reserve the key for when you actually need the volume (a single one-off fetch is fine keyless):
+
+```bash
+curl -s -H "Authorization: Bearer $JINA_API_KEY" "https://r.jina.ai/https://example.com/article"
+```
+
 ```bash
 # Basic -- prepend r.jina.ai/ to any URL
 curl -s "https://r.jina.ai/https://example.com/article"

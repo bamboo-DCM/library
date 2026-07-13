@@ -11,6 +11,12 @@ Repo-wide notes live at [../CHANGELOG.md](../CHANGELOG.md); this file documents 
 
 ---
 
+## [1.6.0-share] — 13 Jul 2026
+
+### Added — optional Jina Reader API key (higher rate limit)
+
+- **Method 3 now documents the optional API key.** The keyless Reader endpoint is free (~20 RPM); authenticating with a free key from jina.ai raises the limit to ~500 RPM for batch/parallel fetching. Keyless requests are unmetered, so reserve the key for genuine volume — a single one-off fetch stays keyless. Generalizable guidance; no change to the keyless default behavior.
+
 ## [1.5.2-share] — 28 May 2026
 
 ### Added
