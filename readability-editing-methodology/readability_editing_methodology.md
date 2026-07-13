@@ -2,7 +2,7 @@
 
 > A runnable **diagnose → refine** process for making any piece of writing as easy to read as its ideas allow — at the grade level the content earns, never below the floor your audience expects and never inflated above it. It fixes the real levers of reading difficulty, **not** a readability score, and wraps the process in a **gate the editor cannot game**.
 
-*A standalone framework, published open-source by [Bamboo DCM](https://bamboodcm.com). It's the process we use internally to edit our own writing; it's written to be useful straight off the page. It pairs naturally with an editor (a human running it by hand, or a skill that applies it) and with a separate defect/AI-pattern linter that runs after — but it stands on its own.*
+*A standalone framework, published open-source by [Bamboo DCM](https://bamboodcm.com) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top. It's the process we use internally to edit our own writing; it's written to be useful straight off the page. It pairs naturally with an editor (a human running it by hand, or a skill that applies it) and with a separate defect/AI-pattern linter that runs after — but it stands on its own.*
 
 ## What this is, in one line
 
@@ -53,7 +53,7 @@ You edit *between* a floor and a ceiling, never below the floor and never above 
 - **Easy** — comprehension-grade simplification for readers who struggle with reading itself. The wrong target for an expert audience (ISO 24495-1:2023 separates "plain" from "easy" explicitly).
 - **Inflated** — register/ceremony pushed above the audience. A failure (above the ceiling).
 
-**Set the floor to your audience.** Pick a target grade *band* (a ceiling-and-floor pair, not a single number) for the content class and audience, plus the audience's home vocabulary. Edit *toward* the band — never below its floor, never above its ceiling. *(Worked example: Bamboo's floor is investor-grade across audiences — board memos sit higher, public posts lower, but none drops below an institutional-investor reading level. The buyer's home vocabulary survives: "covenant," "FIDC," "debênture," "allocator" are grade-11+ terms a credit investor uses daily, so they stay; "sub-linear," "intelligence-heavy services layer" are signaling and get cut. The test: would the reader use this exact word telling a peer what you do? Keep precision; cut signaling.)*
+**Set the floor to your audience.** Pick a target grade *band* (a ceiling-and-floor pair, not a single number) for the content class and audience, plus the audience's home vocabulary. Edit *toward* the band — never below its floor, never above its ceiling. *(Worked example: Bamboo's floor is investor-grade across audiences — board memos sit higher, public posts lower, but none drops below an institutional-investor reading level. The buyer's home vocabulary survives: "covenant," "FIDC," "debênture," "tranche" are grade-11+ terms a credit investor uses daily, so they stay; "sub-linear," "intelligence-heavy services layer" are signaling and get cut. The test: would the reader use this exact word telling a peer what you do? Keep precision; cut signaling.)*
 
 **Why the floor is cognitively real, not just a preference.** Over-smoothing prose can *harm* expert readers — high-knowledge readers can learn *more* from lower-cohesion text because the gaps force them to integrate with what they already know (the reverse-cohesion effect, McNamara et al. 1996). Spelling out what an expert reader already chunks is **extraneous load you are adding by over-explaining** — the inflation failure from the cognitive side. The nuance: the effect is *conditional* — calibrate cohesion and glossing to the audience's expertise; don't maximize them, and don't write disjointed prose either.
 
@@ -196,4 +196,14 @@ Honest limitations, kept so the methodology is used as a frame, not a law:
 
 ---
 
-*Published by [Bamboo DCM](https://bamboodcm.com) under [CC-BY 4.0](../LICENSE) — free to share and adapt with attribution. Comments, improvements, and corrections welcome (see the [repo README](../README.md) for contacts).*
+**Published by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top.
+
+Comments, improvements, or questions:
+
+- **Arthur O'Keefe** — [arthur@bamboodcm.com](mailto:arthur@bamboodcm.com)
+- **Felipe Grassi de Moraes** — [felipe@bamboodcm.com](mailto:felipe@bamboodcm.com)
+- **Urian Inhauser** — [urian@bamboodcm.com](mailto:urian@bamboodcm.com)
+
+License: [CC-BY 4.0](../LICENSE) — free to share and adapt with attribution.
+
+*This methodology is part of an internal knowledge-systems framework Bamboo DCM has been building for AI-native execution in regulated finance. If the broader framework is interesting, get in touch — we're publishing more as we package them.*

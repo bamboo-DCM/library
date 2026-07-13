@@ -810,6 +810,8 @@ Comments, improvements, or questions:
 
 License: [CC-BY 4.0](https://github.com/bamboo-DCM/library/blob/main/LICENSE) — free to share and adapt with attribution.
 
+*This playbook is part of an internal knowledge-systems framework Bamboo DCM has been building for AI-native execution in regulated finance. If the broader framework is interesting, get in touch — we're publishing more as we package them.*
+
 Sources synthesized: Founder Institute Pitch Structure Guide; J. Skyler Fernandes "The Best Startup Pitch Deck"; Chris Tottman "The Reasons Why Investors Say No"; Frank Rotman five-statement framework (X / Twitter, Jul 2023); Aaron Dinin "Why Most Fundraising Pitches Fail Within the First 5 Minutes"; Peter Thiel *Zero to One*; Liran Belenzon "How to Get Multiple Term Sheets in Three Weeks"; pitch.guide review framework; a16z Big Ideas 2026 (Parts 1–2); Linas Beliūnas "What to Build in 2026"; GTMnow Jennifer Li interview on AI infrastructure investment; Bessemer Venture Partners ServiceTitan investment memo (publicly published).
 
 Version 0.1.0-beta · 5 May 2026
