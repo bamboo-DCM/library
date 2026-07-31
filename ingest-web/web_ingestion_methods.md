@@ -1,5 +1,6 @@
 ---
 title: Web Ingestion Methods
+description: Companion reference for the /ingest-web skill — the extraction chain (Defuddle → Jina Reader → WebFetch), the separate YouTube transcript chain, and what to do when a page resists each method.
 companion-to: SKILL.md
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
