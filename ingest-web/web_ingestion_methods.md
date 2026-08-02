@@ -135,7 +135,7 @@ The WebFetch tool fetches a URL, converts HTML to markdown, and processes it wit
 
 ## Image-aware chain — run `extract_web.py`, don't hand-roll the curl
 
-**A Defuddle result carrying zero images is not evidence the page has none.** Defuddle's image emission is site-dependent, and Methods 1 and 3 disagree on the same page on the same day. Measured across six pages:
+**A Defuddle result carrying zero images is not evidence the page has none.** Defuddle's image emission **varies page by page** — not site by site, see the completeness contract below — and Methods 1 and 3 disagree on the same page on the same day. Measured across six pages (each row is one article, not a verdict on the publisher):
 
 | page | Defuddle | Jina |
 |---|---:|---:|
@@ -165,7 +165,38 @@ It writes the chosen body to `--out` (default `/tmp/extract.md`) and prints a JS
 
 **WebFetch (Method 4) stays with the caller.** It is a model tool, not a shell command, and remains the last resort if both legs fail.
 
-*Verified by re-running a ten-domain sample through the built pipeline: 7 of 10 recovered body images, the same 3 that emitted nothing still emitted nothing, and the image-zero trigger specifically rescued 3 domains the word-count rule passed straight through.*
+*Verified at corpus scale: 86 previously image-free saves re-run through the built pipeline, 0 errors, **56 recovered (154 images)**. The image-zero trigger is the smaller half — it recovers 6 of those 56 on its own; the harvest recovers the rest, most of them on pages where the pre-existing content-thin fall-through had already reached the second extractor and the images were simply not kept.*
+
+### Image completeness contract
+
+Both counts are **mandatory frontmatter on every web-page extraction**, and `0` is written explicitly — a missing field and a genuine zero are indistinguishable on disk, so an absent field reads as *"no images on this page"* when it may mean *"nobody looked."* Copy them from the `extract_web.py` report; it counts before stripping.
+
+```yaml
+images_emitted: 4          # distinct ![](url) refs the extractor returned
+images_persisted: 4        # how many survived into this file
+images_rechecked: 2026-08-02   # OPTIONAL — set when the chain was re-run against the
+                               # live URL after the original capture. It is what makes a
+                               # later zero corroborated rather than merely inherited.
+```
+
+**A web page has no expected image count.** This is the structural difference from the transcript contract below, and it decides the shape of the whole convention: a transcript can be *scored* against `duration_min × 150`, so `partial` is a computable verdict. A page has no denominator — nothing says how many figures it should have had. So image completeness cannot be scored, only **corroborated**: a zero is trustworthy when a *second, independent extractor* returned zero on the same page, and untrustworthy otherwise. The image-aware fall-through above produces exactly that corroboration at write time, which is why the record carries its own warrant and needs no later re-check.
+
+**Reading the two numbers:**
+
+| Frontmatter state | What it means | What a consumer does |
+|---|---|---|
+| `images_persisted > 0` | Image layer is present | Nothing — cite normally |
+| `images_emitted > images_persisted` | Refs were dropped | The body note names which and why; chrome exclusions are legitimate, "I didn't carry them" is not |
+| `images_emitted: 0` **and** `extraction_method` shows the chain reached the second extractor | **Corroborated zero** — both legs ran, neither found an image layer | Treat the page as genuinely image-free |
+| `images_emitted: 0` **and** a first-extractor-only method, **no** `images_rechecked` | **Uncorroborated zero** — the extractor may simply have been blind to this page | Re-run `extract_web.py` before relying on it; do not read it as "no images" |
+| `images_emitted: 0` **and** `images_rechecked` present | Corroborated by a later re-run, whatever the original method says | Treat as genuinely image-free |
+| Fields absent entirely | Pre-convention save — **unknown, not zero** | Re-run if the piece is diagram-dependent |
+
+**Recovered image layers are appended, never spliced.** When an older save is re-fetched and its images recovered, the refs go in a `## Recovered image layer` block at the end of the file with the recovery date — the original body is left untouched. Today's fetch is a different document from the one that was captured, so splicing today's refs into yesterday's text would put them at positions the text never had, and would silently overwrite any human annotation the file has accumulated since.
+
+⚠️ **Emission is a per-PAGE property, not a per-site one — this corrects an earlier claim in this file.** The six-page and ten-domain samples above sampled *one page per site* and appeared to show that certain publishers were simply unreadable by the first extractor. At corpus scale that does not hold: **every site sampled at more than one page turned out mixed**, including the one this file previously singled out as chart-dense-and-unreadable — **12 of its 17 pages emit images**, and the five that do not are its five shortest posts. Do not write a site-level rule off a sample, and never read `images_emitted: 0` as a fact about the publisher.
+
+*Adapt the counts to your own corpus; the two fields, the write-`0`-explicitly rule and the corroboration rule are the transferable part.*
 
 ## Method 5: Crawl4AI (Open-Source)
 
