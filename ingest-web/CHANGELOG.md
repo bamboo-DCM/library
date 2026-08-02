@@ -1,6 +1,6 @@
 ---
 skill: ingest-web
-updated: 28 May 2026
+updated: 2 Aug 2026
 ---
 
 # ingest-web — CHANGELOG
@@ -8,6 +8,37 @@ updated: 28 May 2026
 Public mirror of the `/ingest-web` skill. Pointer: [SKILL.md](SKILL.md) · [web_ingestion_methods.md](web_ingestion_methods.md).
 
 Repo-wide notes live at [../CHANGELOG.md](../CHANGELOG.md); this file documents per-version delta narrative for the skill specifically.
+
+---
+
+## 1.8.0-share — 2 Aug 2026
+
+**The image harvest and the fall-through that makes it reachable are now code — [`extract_web.py`](extract_web.py), shipped with the skill.**
+
+1.7.0-share made the *counts* mandatory. This makes the counts true: it harvests the refs, screens page chrome, and — the load-bearing half — asks the second extractor when the first returns none.
+
+**Defuddle's image emission is site-dependent.** Measured on six pages, same day, same URLs:
+
+| page | Defuddle | Jina |
+|---|---:|---:|
+| nfx.com | **0** | 8 |
+| a16z.news | **0** | 26 |
+| latent.space | **0** | 4 |
+| tomtunguz.com | 1 | 1 |
+| anthropic.com | 2 | 2 |
+| ben-evans.com | 0 | 0 |
+
+On the first three, Defuddle returns a **full-length, perfectly good article body** with the figure layer simply absent — so it clears the `<50 words` fall-back and the saved file looks clean. **A word-count check cannot see a missing figure layer.**
+
+**Two fall-through triggers now, not one:**
+- **content-thin** (pre-existing) — under 50 words / error JSON / CDN block → take Jina.
+- **image-zero** (new) — Defuddle emitted no image refs → fetch Jina, adopt **only if** it emits images *and* its body is ≥ 60% of Defuddle's word count. A page is never traded for an image-bearing stub.
+
+**Verified by re-run, not inspection.** The ten-domain sample from the gap audit, put back through the built pipeline: **7 of 10 now persist body images; the same 3 that emitted nothing before still emit nothing.** The image-zero trigger specifically rescued 3 domains the word-count rule would have passed straight through. On one worked page, Defuddle returned 2,191 words and 0 images; the fall-through recovered all 4 body diagrams with 0 chrome false-positives.
+
+⚠️ **This is also what makes the 1.7.0 zero mean what it claims.** Without the fall-through, a Defuddle-only save reports a truthful `images_emitted: 0` for the **wrong reason** — the page had figures, the extractor was blind to them — so the record is honest about the count and wrong about the cause. Take a zero at face value only when `extraction_method` shows the chain reached Jina.
+
+🔑 **The transferable part is the shape, not the extractor.** The advice to flag missing images was *already written in the skill*, and the audit still found the overwhelming majority of a working corpus saved image-free. Advisory prose aimed at an actor already mid-task is not a control; a deterministic step whose numbers land in mandatory frontmatter is. The old gotcha is kept, annotated with its own failure, as a caution against writing your next control as a sentence.
 
 ---
 
