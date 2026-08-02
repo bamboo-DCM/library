@@ -10,7 +10,7 @@ description: >-
   files. DO NOT TRIGGER when: user asks to fetch a URL for one-time reading without
   saving (use WebFetch directly), process local documents, or needs structured data
   extraction from web pages.
-version: 1.6.0-share
+version: 1.7.0-share
 updated: 19 May 2026
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
@@ -127,10 +127,27 @@ Construct a markdown file with clean YAML frontmatter:
 title: [extracted or inferred from page]
 source: [original URL]
 extracted: [today's date in "14 Mar 2026" format]
+images_emitted: [count of ![](...) refs the extractor returned — 0 is a real answer]
+images_persisted: [count you actually kept in the saved file]
 ---
 ```
 
 Below the frontmatter, place the extracted markdown content. Strip any navigation, ads, cookie banners or site chrome that leaked through.
+
+#### `images_emitted` / `images_persisted` are MANDATORY on every web extraction (added 2 Aug 2026)
+
+**Count the `![](...)` refs in what the extractor handed back, before you strip anything, and record both numbers.** They are cheap (a regex over the response) and they exist to make a *silent* partial capture into a *visible* one.
+
+**Why this is not optional.** A 2 Aug 2026 audit of 103 web-page extractions in one desk's ingested-source corpus found **87% had saved zero images**, and a live re-fetch of ten of them split into two failure modes that look identical on disk:
+
+- **7 of 10 — the extractor emitted images and the save discarded them.** Recoverable; `images_emitted: 4, images_persisted: 0` makes it obvious.
+- **3 of 10 — the extractor emitted nothing at all** (`ben-evans.com` returns 0 even with `X-Retain-Images: all`, on a chart-dense author). Nothing to harvest. `images_emitted: 0` is the only signal that this page has an unread visual layer.
+
+⚠️ **The second case is why `0` must be written rather than omitted.** A missing field and a genuine zero are indistinguishable, so an absent field reads as "no images on the page" when it may mean "this extractor is blind to this site." **Write `images_emitted: 0` explicitly; never leave the field off.**
+
+**When they differ, say so in the body.** `images_emitted > images_persisted` means content was dropped — note which refs and why (chrome exclusion is a legitimate reason; "I didn't carry them" is not). When `images_emitted: 0` on a page you have reason to believe is figure-bearing, add a one-line `⚠️ visual layer not captured` note under the frontmatter so a downstream consumer does not verdict on partial substrate.
+
+This convention came out of a measured gap audit on the authoring desk's own source corpus (Bamboo DCM reference implementation, Aug 2026) — adapt the thresholds to your own if they differ; the two fields and the write-`0`-explicitly rule are the transferable part.
 
 ### 4. Save the file
 

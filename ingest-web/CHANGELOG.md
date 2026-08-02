@@ -11,6 +11,17 @@ Repo-wide notes live at [../CHANGELOG.md](../CHANGELOG.md); this file documents 
 
 ---
 
+## 1.7.0-share — 2 Aug 2026
+
+**`images_emitted` / `images_persisted` are now MANDATORY frontmatter on every web extraction.**
+
+Count the `![](...)` refs the extractor returned *before* stripping anything; record that number and how many survived into the saved file.
+
+**Measured, not assumed.** A gap audit of **103 web-page extractions** in one desk's ingested-source corpus found **87% had saved zero images**. A live re-fetch of ten separated two failure modes that are **indistinguishable on disk**: **7 of 10** emitted images that the save discarded (recoverable), and **3 of 10** emitted *nothing at all* — one a chart-dense author whose pages return zero images even with `X-Retain-Images: all`.
+
+⚠️ **`0` must be written, never omitted.** A missing field and a genuine zero look identical, so an absent field reads as *"no images on this page"* when it may mean *"this extractor is blind to this site."* That second class is invisible to any emitted-vs-persisted ratio — when the numerator is 0 the metric reads clean — which is exactly why the field, not the ratio, is the control.
+
+
 ## [1.6.0-share] — 13 Jul 2026
 
 ### Added — optional Jina Reader API key (higher rate limit)
