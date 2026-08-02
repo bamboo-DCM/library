@@ -10,7 +10,7 @@ description: >-
   files. DO NOT TRIGGER when: user asks to fetch a URL for one-time reading without
   saving (use WebFetch directly), process local documents, or needs structured data
   extraction from web pages.
-version: 1.8.0-share
+version: 1.9.0-share
 updated: 19 May 2026
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
@@ -143,18 +143,22 @@ Below the frontmatter, place the extracted markdown content. Strip any navigatio
 
 **Copy both numbers straight from the `extract_web.py` report (§2) — it counts before stripping, so don't recount by eye.** They exist to make a *silent* partial capture into a *visible* one.
 
-**Why this is not optional.** A 2 Aug 2026 audit of 103 web-page extractions in one desk's ingested-source corpus found **87% had saved zero images**, and a live re-fetch of ten of them split into two failure modes that look identical on disk:
+**Why this is not optional.** A 2 Aug 2026 audit of 103 web-page extractions in one desk's ingested-source corpus found **87% had saved zero images**. Re-running all 86 fetchable ones through the built chain recovered **56 of them (154 images)** — the loss was real and most of it was recoverable. Two failure modes look identical on disk:
 
-- **7 of 10 — the extractor emitted images and the save discarded them.** Recoverable; `images_emitted: 4, images_persisted: 0` makes it obvious.
-- **3 of 10 — the extractor emitted nothing at all** (`ben-evans.com` returns 0 even with `X-Retain-Images: all`, on a chart-dense author). Nothing to harvest. `images_emitted: 0` is the only signal that this page has an unread visual layer.
+- **The extractor emitted images and the save discarded them.** Recoverable; `images_emitted: 4, images_persisted: 0` makes it obvious.
+- **The extractor emitted nothing at all.** Nothing to harvest; `images_emitted: 0` is the only signal that the page may have an unread visual layer.
 
-⚠️ **The second case is why `0` must be written rather than omitted.** A missing field and a genuine zero are indistinguishable, so an absent field reads as "no images on the page" when it may mean "this extractor is blind to this site." **Write `images_emitted: 0` explicitly; never leave the field off.**
+⚠️ **The second case is why `0` must be written rather than omitted.** A missing field and a genuine zero are indistinguishable, so an absent field reads as "no images on the page" when it may mean "nobody looked." **Write `images_emitted: 0` explicitly; never leave the field off.**
+
+⚠️ **Emission is a per-PAGE property — never generalize it to a site.** An earlier version of this file named a specific publisher as one the extractor could not read. That was wrong, and the way it went wrong is the transferable lesson: the sample took **one page per site**, so a site-level verdict was never supported by it. At corpus scale every site sampled at more than one page is mixed — the publisher in question **emits images on 12 of its 17 pages**, the five exceptions being its five shortest posts. A single page tells you about that page.
 
 **When they differ, say so in the body.** `images_emitted > images_persisted` means content was dropped — note which refs and why (the tool reports each chrome exclusion with its reason, which is legitimate; "I didn't carry them" is not). When `images_emitted: 0` on a page you have reason to believe is figure-bearing, add a one-line `⚠️ visual layer not captured` note under the frontmatter so a downstream consumer does not verdict on partial substrate.
 
-⚠️ **`images_emitted: 0` only means what it claims if the image-aware fall-through actually ran.** A Defuddle-only save can report a truthful zero for the wrong reason — the page had figures, the *extractor* was blind to them. On the ten-domain verification sample, three domains were recovered by exactly that fall-through and would otherwise have been recorded as pages with no visual layer. Take the zero at face value only when `extraction_method` shows the chain reached Jina.
+⚠️ **`images_emitted: 0` only means what it claims if the image-aware fall-through actually ran.** A Defuddle-only save can report a truthful zero for the wrong reason — the page had figures, the *extractor* was blind to them. Take the zero at face value only when `extraction_method` shows the chain reached Jina. That is the whole basis on which a zero is trustworthy: not the count, but **a second extractor having independently agreed with it**.
 
-This convention came out of a measured gap audit on the authoring desk's own source corpus (Bamboo DCM reference implementation, Aug 2026) — adapt the thresholds to your own if they differ; the two fields and the write-`0`-explicitly rule are the transferable part.
+**Full contract** — how to read the two numbers, when a zero is trustworthy, and how a recovered image layer is written back: [web_ingestion_methods.md](web_ingestion_methods.md) § Image completeness contract.
+
+This convention came out of a measured gap audit on the authoring desk's own source corpus (Bamboo DCM reference implementation, Aug 2026) — adapt the thresholds to your own if they differ; the two fields, the write-`0`-explicitly rule and the corroboration rule are the transferable part.
 
 ### 4. Save the file
 

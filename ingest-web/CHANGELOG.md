@@ -11,6 +11,20 @@ Repo-wide notes live at [../CHANGELOG.md](../CHANGELOG.md); this file documents 
 
 ---
 
+## 1.9.0-share — 2 Aug 2026
+
+**Adds § Image completeness contract, and corrects a claim the previous two releases got wrong.**
+
+v1.7.0 made `images_emitted` / `images_persisted` mandatory; v1.8.0 made them true by shipping `extract_web.py`. Neither said how to *read* them. This does.
+
+**The load-bearing idea: a web page has no expected image count.** The transcript contract in the same file scores against `duration_min × 150`, so `partial` is a computable verdict. A page has no denominator — nothing says how many figures it should have had. So image completeness cannot be **scored**, only **corroborated**: a zero is trustworthy when a *second, independent extractor* returned zero on the same page. The image-aware fall-through already produces that at write time. Adds `images_rechecked:` (optional — what makes a later zero corroborated rather than merely inherited), a six-state reading table, and **append-never-splice** for recovered image layers: a re-fetch returns a *different document* from the one captured, so splicing today's refs into yesterday's text would place them at positions the text never had and overwrite any annotation added since.
+
+⚠️ **Correction — emission is a per-PAGE property, not a per-site one.** v1.7.0 and v1.8.0 described a specific publisher as one this chain could not read, and called emission "site-dependent," on the strength of a sample that took **one page per site**. That does not survive contact with a corpus: **every site sampled at more than one page is mixed**, and the publisher in question **emits images on 12 of its 17 pages** — the five that don't are its five shortest posts. **The site-level claims are struck from the live guidance in both files** (the per-page measurement table stays — each row was always one article, and those numbers are correct; the entries below keep their original wording, because a changelog is a record). The transferable lesson is not about that publisher: **a one-page-per-site sample cannot support a site-level verdict**, and `images_emitted: 0` is never a fact about a publisher.
+
+**Numbers now corpus-scale rather than sample-scale:** 86 previously image-free saves re-run, 0 errors, **56 recovered, 154 images**; chrome screen 7 exclusions of 161 emitted with zero body diagrams lost. ⚠️ Also worth knowing if you adopt this: **the image-zero trigger is the smaller half** — 6 of the 56 recoveries — while the harvest accounts for the rest, mostly on pages where the pre-existing content-thin fall-through had already reached the second extractor and the images simply were not kept. And the 60% word-count floor guarding against trading a page for an image-bearing stub **has never once fired** in practice, so treat it as untested.
+
+---
+
 ## 1.8.0-share — 2 Aug 2026
 
 **The image harvest and the fall-through that makes it reachable are now code — [`extract_web.py`](extract_web.py), shipped with the skill.**
