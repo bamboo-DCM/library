@@ -10,7 +10,7 @@ description: >-
   files. DO NOT TRIGGER when: user asks to fetch a URL for one-time reading without
   saving (use WebFetch directly), process local documents, or needs structured data
   extraction from web pages.
-version: 1.7.0-share
+version: 1.8.0-share
 updated: 19 May 2026
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
@@ -75,19 +75,22 @@ Default priority for single public pages (non-YouTube, non-archive):
 
 ### 2. Execute extraction with auto-fallback
 
-Try Defuddle API first:
+**Run the chain through [`extract_web.py`](extract_web.py) (shipped with this skill), not by hand:**
 
 ```bash
-curl -s "https://defuddle.md/$URL_WITHOUT_PROTOCOL"
+python3 "$SKILL_DIR/extract_web.py" "$FULL_URL" --out /tmp/extract.md
 ```
 
-If the result is empty, garbage (under 50 words of meaningful content), or an error, fall back to Jina Reader:
+It executes Defuddle → Jina with **both** fall-through triggers and hands back the counts §3 needs:
 
-```bash
-curl -s "https://r.jina.ai/$FULL_URL"
-```
+- **Content-thin** (the long-standing rule) — Defuddle returned under 50 words, an error JSON or a CDN block → take Jina.
+- **Image-zero** — Defuddle returned a good body with **no image refs at all** → fetch Jina and adopt it if Jina emits images without costing material text.
 
-If that also fails, use the WebFetch tool with the prompt "Extract the full article content as clean markdown."
+**Why the second trigger exists.** Defuddle's image emission is site-dependent. Measured across six pages on the same day, it returned **0** image refs where Jina returned **8, 26 and 4** on three of them, and matched Jina on the other three. On those three it hands back a *full-length, perfectly good article body* with the figure layer simply absent — so it clears the `<50 words` test and the saved file looks clean. **A word-count check cannot see a missing figure layer.** A zero from Defuddle is a reason to ask the other extractor, not a finding about the page.
+
+The JSON report gives `method`, `fallthrough`, `images_emitted`, `images_persisted` and every chrome exclusion with its reason. Full mechanics: [web_ingestion_methods.md](web_ingestion_methods.md) § Image-aware chain.
+
+If both legs fail, use the WebFetch tool with the prompt "Extract the full article content as clean markdown."
 
 **Extraction discipline — fetch once to file, then Read.** Always pipe the fetch into a temp file in one call (`curl -s "$URL" > /tmp/extract.md`), then use the Read tool on `/tmp/extract.md`. Do NOT chain `| head -c N` and `| tail -c N` into multiple curl invocations to inspect a partial body — that's three round-trips for one resource. The full body fits in Read's window for almost all article-class content (typical 5–25KB); when it doesn't, Read with `offset`/`limit`.
 
@@ -127,6 +130,8 @@ Construct a markdown file with clean YAML frontmatter:
 title: [extracted or inferred from page]
 source: [original URL]
 extracted: [today's date in "14 Mar 2026" format]
+extraction_method: [the report's `method` verbatim — e.g. defuddle, or
+                    jina (image-zero fall-through from defuddle)]
 images_emitted: [count of ![](...) refs the extractor returned — 0 is a real answer]
 images_persisted: [count you actually kept in the saved file]
 ---
@@ -136,7 +141,7 @@ Below the frontmatter, place the extracted markdown content. Strip any navigatio
 
 #### `images_emitted` / `images_persisted` are MANDATORY on every web extraction (added 2 Aug 2026)
 
-**Count the `![](...)` refs in what the extractor handed back, before you strip anything, and record both numbers.** They are cheap (a regex over the response) and they exist to make a *silent* partial capture into a *visible* one.
+**Copy both numbers straight from the `extract_web.py` report (§2) — it counts before stripping, so don't recount by eye.** They exist to make a *silent* partial capture into a *visible* one.
 
 **Why this is not optional.** A 2 Aug 2026 audit of 103 web-page extractions in one desk's ingested-source corpus found **87% had saved zero images**, and a live re-fetch of ten of them split into two failure modes that look identical on disk:
 
@@ -145,7 +150,9 @@ Below the frontmatter, place the extracted markdown content. Strip any navigatio
 
 ⚠️ **The second case is why `0` must be written rather than omitted.** A missing field and a genuine zero are indistinguishable, so an absent field reads as "no images on the page" when it may mean "this extractor is blind to this site." **Write `images_emitted: 0` explicitly; never leave the field off.**
 
-**When they differ, say so in the body.** `images_emitted > images_persisted` means content was dropped — note which refs and why (chrome exclusion is a legitimate reason; "I didn't carry them" is not). When `images_emitted: 0` on a page you have reason to believe is figure-bearing, add a one-line `⚠️ visual layer not captured` note under the frontmatter so a downstream consumer does not verdict on partial substrate.
+**When they differ, say so in the body.** `images_emitted > images_persisted` means content was dropped — note which refs and why (the tool reports each chrome exclusion with its reason, which is legitimate; "I didn't carry them" is not). When `images_emitted: 0` on a page you have reason to believe is figure-bearing, add a one-line `⚠️ visual layer not captured` note under the frontmatter so a downstream consumer does not verdict on partial substrate.
+
+⚠️ **`images_emitted: 0` only means what it claims if the image-aware fall-through actually ran.** A Defuddle-only save can report a truthful zero for the wrong reason — the page had figures, the *extractor* was blind to them. On the ten-domain verification sample, three domains were recovered by exactly that fall-through and would otherwise have been recorded as pages with no visual layer. Take the zero at face value only when `extraction_method` shows the chain reached Jina.
 
 This convention came out of a measured gap audit on the authoring desk's own source corpus (Bamboo DCM reference implementation, Aug 2026) — adapt the thresholds to your own if they differ; the two fields and the write-`0`-explicitly rule are the transferable part.
 
@@ -210,7 +217,9 @@ These are structurally likely failure modes based on the extraction methods. Che
 
 **Extraction strips meaningful formatting.** Tables, code blocks, and nested lists in the original article can be mangled by Defuddle or Jina. After extraction, spot-check that structural elements survived. If tables are important, note in the output that the user should verify table integrity against the source.
 
-**Images are hotlinked, not downloaded locally.** Defuddle and Jina preserve image references as markdown `![](url)` pointing to the source server. If the source page is deleted or the CDN URL structure changes, the images break. For image-heavy content where the images carry meaningful information (code screenshots, diagrams, charts), flag in the output that images are hotlinked and may need manual local download.
+**Images are hotlinked, not downloaded locally.** Defuddle and Jina preserve image references as markdown `![](url)` pointing to the source server. If the source page is deleted or the CDN URL structure changes, the images break. The skill does not download images — if the user explicitly requests it, fetch them into an `assets/` subdirectory alongside the saved file and rewrite the markdown references.
+
+> **This gotcha used to end in "flag it in the output," and that is precisely what failed.** An audit found the overwhelming majority of a working source corpus had been saved with no images at all — the advice was here, in this file, and did not fire once. Advisory prose aimed at the actor who is already mid-task is not a control. The harvest and the count are now a deterministic step in §2 ([`extract_web.py`](extract_web.py)) whose numbers land in mandatory frontmatter, which is the part that actually holds. Worth keeping in mind before writing your next gotcha as a sentence.
 
 **URLs with query parameters need shell quoting.** When constructing curl commands for Defuddle or Jina, URLs containing `&`, `=`, `?`, or other shell metacharacters in query strings can break if not quoted. Always wrap the full URL in double quotes in the curl command. This is easy to miss because curl often succeeds anyway — the failure mode is silent truncation of the URL at the first unescaped `&`.
 

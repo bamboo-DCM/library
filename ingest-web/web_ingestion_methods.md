@@ -133,6 +133,40 @@ The WebFetch tool fetches a URL, converts HTML to markdown, and processes it wit
 **Best for:** ad-hoc extraction during a working session, when you need AI processing on the content immediately.
 **Limitations:** content may be summarized for very large pages, 15-minute cache, read-only.
 
+## Image-aware chain — run `extract_web.py`, don't hand-roll the curl
+
+**A Defuddle result carrying zero images is not evidence the page has none.** Defuddle's image emission is site-dependent, and Methods 1 and 3 disagree on the same page on the same day. Measured across six pages:
+
+| page | Defuddle | Jina |
+|---|---:|---:|
+| nfx.com post | **0** | 8 |
+| a16z.news post | **0** | 26 |
+| latent.space post | **0** | 4 |
+| tomtunguz.com post | 1 | 1 |
+| anthropic.com post | 2 | 2 |
+| ben-evans.com post | 0 | 0 |
+
+So a word-count fall-back alone is not enough: on the first three, Defuddle returns a **perfectly good article body** with the figure layer missing, sails past the `<50 words` test, and the save looks clean. That is a silent partial capture — a full-length text file whose diagrams were never in it. For any content where the figures carry the argument (stack diagrams, charts, framework visuals), that is the difference between a usable substrate and a misleading one.
+
+[`extract_web.py`](extract_web.py) (shipped with this skill) runs Method 1 → Method 3 image-aware, and is the executable form of two rules that previously sat in the skill as prose and did not fire:
+
+1. **Harvest and count** — count the distinct `![](url)` refs the extractor handed back **before stripping anything**, screen out page chrome, and report `images_emitted` / `images_persisted` for frontmatter.
+2. **Image-aware fall-through** — when Defuddle returns zero image refs, fetch Jina and adopt it **only if** Jina emits images *and* its body is not materially shorter (≥ 60% of Defuddle's word count). A page is never traded for an image-bearing stub.
+
+```bash
+python3 "$SKILL_DIR/extract_web.py" "$FULL_URL" --out /tmp/extract.md
+```
+
+It writes the chosen body to `--out` (default `/tmp/extract.md`) and prints a JSON report: `method`, `fallthrough`, `words`, `images_emitted`, `images_persisted`, `kept`, `excluded` (each exclusion with its reason). Use `--from-file PATH` to count and screen a body you already have; `--no-fallthrough` for diagnostics. It picks up an optional `JINA_API_KEY` + `JINA_HIGH_VOLUME` for the authenticated Jina tier and needs neither — keyless Jina is free and ample for single-URL work.
+
+**Record the fall-through when it fires:** `extraction_method: jina (image-zero fall-through from defuddle)`. That string matters downstream — it distinguishes *"this extractor was blind to this page"* from *"this page genuinely has no images."*
+
+**The chrome screen is deliberately conservative** (tracking pixels, avatars, favicons/sprites, logos, social buttons, and explicit sub-100px renditions like `w_40` or `-64x64`). A false exclusion silently loses a body diagram — the exact defect this exists to fix — while a false inclusion merely carries one extra ref. Every exclusion is reported with its reason, so widen the screen from your own observed output rather than by guessing.
+
+**WebFetch (Method 4) stays with the caller.** It is a model tool, not a shell command, and remains the last resort if both legs fail.
+
+*Verified by re-running a ten-domain sample through the built pipeline: 7 of 10 recovered body images, the same 3 that emitted nothing still emitted nothing, and the image-zero trigger specifically rescued 3 domains the word-count rule passed straight through.*
+
 ## Method 5: Crawl4AI (Open-Source)
 
 Python library built specifically for AI/LLM content extraction. Runs locally.
