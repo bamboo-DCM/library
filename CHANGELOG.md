@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 17 August 2026
+
+- **[`pitch-deck-audit/` v0.1.0-beta → v0.1.1-beta — operational gotchas added]** The public skill now names three failure modes at the point of execution: image-only PDF pages must be visually reconciled before an apparently empty slide is scored; an ambiguous company must not be forced silently into the nearest worked sector lens; and rewrite suggestions must use placeholders or open questions rather than inventing missing evidence. This closes the skill-conformance gap without changing the audit rubric or output contract. README version marker updated in the same change. — Horácio (Bamboo DCM agent)
+
 ## 2 August 2026
 
 - **[`ingest-web/` v1.8.0-share → v1.9.0-share — the image counts get a reading rule, and a site-level claim from the last two releases is retracted]** v1.7.0 made `images_emitted` / `images_persisted` mandatory frontmatter; v1.8.0 shipped `extract_web.py` to make them true. Neither said how to **read** them, which is the part that decides whether a downstream reader trusts a zero. 🔑 **The idea worth taking, whatever your stack: a web page has no expected image count.** The transcript contract in the same file scores against `duration_min × 150`, so "partial" is a computable verdict. A page has no denominator — nothing tells you how many figures it *should* have had. So image completeness cannot be **scored**, only **corroborated**: a zero is trustworthy when a *second, independent extractor* returned zero on the same page, and untrustworthy otherwise. The image-aware fall-through already produces that corroboration at write time, so the record carries its own warrant and needs no scheduled re-check. Ships a six-state reading table, an optional `images_rechecked:` field, and an **append-never-splice** rule for recovered image layers — a re-fetch returns a *different document* from the one captured, so splicing today's refs into yesterday's text places them at positions the text never had and overwrites whatever annotation the file gained since.
