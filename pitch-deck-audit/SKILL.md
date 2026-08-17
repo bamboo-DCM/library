@@ -11,8 +11,8 @@ description: >-
   visually (use design tools), generate a deck from scratch (this skill audits
   existing decks; use a content-authoring approach for greenfield), or draft
   email follow-ups to investors.
-version: 0.1.0-beta
-updated: 5 May 2026
+version: 0.1.1-beta
+updated: 17 Aug 2026
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
 license: CC-BY-4.0
@@ -173,6 +173,14 @@ Use this structure verbatim. Each section starts with a level-2 heading.
 ```
 
 Be direct. Don't pad. The audit is a diagnostic, not a marketing piece for the founder's existing deck.
+
+## Gotchas
+
+**Image-heavy PDFs can look complete while yielding little or no text.** Before treating an apparently empty slide as a deck weakness, reconcile extracted slide count against the PDF page count and inspect rendered pages for image-only content. Report an ingestion limitation instead of scoring content the extractor never saw.
+
+**A convenient sector lens can be the wrong lens.** Do not silently force an ambiguous company into the closest worked example. State the proposed lens and confirm it, or use `lens_template.md`; otherwise the audit can produce precise-looking but category-wrong red flags.
+
+**Rewrite suggestions must not manufacture evidence.** Preserve verified facts and use labeled placeholders or open questions for missing metrics, regulatory details, cohort performance, or transaction terms. Never turn a missing fact into a plausible number to make a slide read better.
 
 ## Modes
 
