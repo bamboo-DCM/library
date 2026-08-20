@@ -2,4 +2,4 @@
 # Auto-requests the listed maintainer(s) for review on PRs touching owned paths.
 # Notify-not-gate: the request fires on PR open; it does not block admin self-merge.
 
-* @arthur-bamboo @urianbamboo
+* @arthur-bamboo

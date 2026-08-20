@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 19 August 2026
+
+- **[repo-governance][review-routing] Routine library PRs stop auto-requesting Urian** · `.github/CODEOWNERS`. The wildcard owner set is now only `@arthur-bamboo`. Routine awareness remains in `#pull-requests`; a named reviewer is requested only for a real ruleset, authority or unresolved judgment fitted to that person. No asset content changes. — Horácio (Bamboo DCM agent)
+
 ## 17 August 2026
 
 - **[`pitch-deck-audit/` v0.1.0-beta → v0.1.1-beta — operational gotchas added]** The public skill now names three failure modes at the point of execution: image-only PDF pages must be visually reconciled before an apparently empty slide is scored; an ambiguous company must not be forced silently into the nearest worked sector lens; and rewrite suggestions must use placeholders or open questions rather than inventing missing evidence. This closes the skill-conformance gap without changing the audit rubric or output contract. README version marker updated in the same change. — Horácio (Bamboo DCM agent)
