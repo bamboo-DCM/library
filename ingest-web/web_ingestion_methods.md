@@ -5,8 +5,8 @@ companion-to: SKILL.md
 attribution: Bamboo DCM (https://bamboodcm.com)
 contact: [arthur@bamboodcm.com, felipe@bamboodcm.com, urian@bamboodcm.com]
 license: Free to share and adapt with attribution
-version: 1.3.0-share
-updated: 19 May 2026
+version: 1.4.0-share
+updated: 25 Sep 2026
 ---
 
 # Web Ingestion Methods
@@ -31,6 +31,7 @@ Reference for downloading and converting web content to markdown for ingestion i
 
 **YouTube video URL** → Method 6 below (youtube-transcript-api + yt-dlp). Defuddle / Jina / WebFetch ALL return page chrome on YouTube URLs — never use the standard chain on `youtube.com/watch?v=...` or `youtu.be/...`.
 **Archive / feed URL** → Method 7 below (RSS extraction). Defuddle / Jina / WebFetch return menu chrome / post listings on archive URLs (`/archive`, `/feed`, `/rss`, Substack bare-domain) — same failure shape as YouTube.
+**X (Twitter) Article** (`x.com/i/article/{id}`, or a wrapper post promoting one) → **Method 9** below (fxtwitter `entityMap`). The standard chain returns the prose and silently drops every code block, prompt template, LaTeX and diagram — roughly 40% of a technical article — with no truncation signal of any kind.
 **Single public page, quick grab** → Defuddle API or Jina Reader API
 **Single page, need full control** → Defuddle CLI
 **JS-heavy or SPA page** → Jina Reader API (runs headless Chrome)
@@ -490,6 +491,31 @@ Empirical catalog of per-architecture Jina-extraction primitives — captured 28
 **Per-source documentation discipline.** When discovering a working primitive for a new source, document it inline on that source's row in your source registry per your project's access-mechanics-documentation convention. The catalog above is the pattern-class generalization; the registry row is the per-source application.
 
 *Source: 28 May 2026 multi-source enumeration sweep — Jina primitive worked first-try on 5 of 8 publisher sources with the obvious path; required `/archive` retry on 2; required `/library` retry on 1. Per-architecture pattern catalog landed during a multi-session content-ingestion retrospective.*
+
+## Method 9: X (Twitter) Article extraction — the payload lives in `entityMap`, not in the prose
+
+*Method numbers follow the maintained upstream edition of this skill, so the gap at 8 in this public edition is intentional.*
+
+An X **Article** (the longform surface, `x.com/i/article/{id}`, usually reached through a wrapper post at `x.com/{handle}/status/{id}`) extracts **prose-complete and payload-absent** through the standard chain: Jina returns every paragraph, while embedded code blocks, prompt templates, LaTeX and diagram bodies are silently dropped, rendering as a section header with nothing beneath it. `![` ref count is `0`, so the payload does not arrive as image refs either. **Nothing about the result looks incomplete** — it is thousands of words of coherent prose, so no length or truncation test fires.
+
+**Route.** Fetch the wrapper post through the fxtwitter API and parse the article payload directly:
+
+```bash
+curl -s "https://api.fxtwitter.com/{handle}/status/{wrapper_status_id}"
+# → .tweet.article.content.{blocks, entityMap}
+```
+
+**The one shape that costs a call if unknown:** `entityMap` is a **list of `{key, value: {type, data, mutability}}` records**, not a dict keyed by type. Walk the list and splice each entity back into `blocks` at its offset. Entity types observed: `MARKDOWN`, `LATEX`, `DIVIDER`, `LINK`.
+
+**Measured on one article, two runtimes independently:** prose-only parse `1,718` / `1,727` words; entity-resolved `2,870` / `2,879` words across `14 MARKDOWN + 2 LATEX + 9 DIVIDER + 1 LINK`. So the payload is roughly **40% of the article** and is exactly the part a technical piece is worth reading for.
+
+**Verification.** Compare the prose-only and entity-resolved word counts. If they match, either the article genuinely has no embedded payload or your `entityMap` walk is a no-op — distinguish by checking the entity count, not the word delta.
+
+**Skip cases.** An ordinary tweet or thread (no `article` key in the response) — use the standard chain or a thread reader. An article whose wrapper post ID you do not have: the `x.com/i/article/{id}` form is not directly fetchable by this route; recover the wrapper from the referring link.
+
+**Limits worth stating.** A cover image URL is present in the response but is not an inline body ref, so it does not appear in `images_emitted`. This route is unauthenticated and public-content-only; it confers no access to protected posts.
+
+*Validated 4 Sep 2026 on the same article by two independent runtimes, which agreed on word counts within rounding and on entity composition exactly.*
 
 ## Source-layer fallbacks (when the URL itself is the problem)
 

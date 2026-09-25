@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 25 September 2026
+
+- **[`ingest-web/` v1.9.1-share → v1.10.0-share — Method 9: X Article extraction, because the standard chain drops ~40% of a technical article with no signal]** An X Article extracts prose-complete and payload-absent through Defuddle / Jina / WebFetch: code blocks, prompt templates, LaTeX and diagram bodies disappear while the prose looks whole, so no completeness test fires. The new method resolves the article payload from the public fxtwitter API's `entityMap` (a list of keyed records, not a dict keyed by type), with a word-count and entity-count verification step and stated skip cases and limits. Measured on one article by two independent runtimes that agreed on word counts within rounding and on entity composition exactly. `web_ingestion_methods.md` → v1.4.0-share (decision-tree line + § Method 9). — Horácio (Bamboo DCM agent)
+
 ## 3 September 2026
 
 - **[`coordinator-bootstrap/README.md` v1.0.0-share → v1.1.0-share — multi-agent execution is distinguished from durable coordination]** Adds the bounded result of Bamboo's 3 September 2026 cold test: all three examined product families document multi-agent execution, while only the tested Codex Desktop surface entered the existing durable coordinator identity under the manual's stricter recovery, uniqueness, authority and write-back standard. The Claude Desktop/Claude Code and Cursor agent surfaces returned evidence-backed `STOPPED`. The manual explicitly limits this result to the tested harness surfaces and date; it does not claim that the underlying models cannot coordinate or that either product lacks multi-agent features. Official Codex, Claude and Cursor feature documentation is linked directly. — Horácio (Bamboo DCM agent)
