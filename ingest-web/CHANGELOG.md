@@ -1,6 +1,6 @@
 ---
 skill: ingest-web
-updated: 24 Aug 2026
+updated: 25 Sep 2026
 ---
 
 # ingest-web — CHANGELOG
@@ -10,6 +10,14 @@ Public mirror of the `/ingest-web` skill. Pointer: [SKILL.md](SKILL.md) · [web_
 Repo-wide notes live at [../CHANGELOG.md](../CHANGELOG.md); this file documents per-version delta narrative for the skill specifically.
 
 ---
+
+## 1.10.0-share — 25 Sep 2026
+
+**Adds Method 9: X (Twitter) Article extraction, because the standard chain silently drops the payload of a technical article.**
+
+An X Article (`x.com/i/article/{id}`, usually reached through a wrapper post) extracts **prose-complete and payload-absent** through Defuddle / Jina / WebFetch: every paragraph arrives, while embedded code blocks, prompt templates, LaTeX and diagram bodies vanish, each leaving a section header with nothing beneath it. No image refs arrive either. **Nothing about the result looks incomplete** — it is thousands of words of coherent prose, so no length, truncation or completeness test fires; the only tell is semantic.
+
+The route fetches the wrapper post through the public fxtwitter API and resolves `.tweet.article.content.{blocks, entityMap}` directly. The one shape that costs a call if unknown: **`entityMap` is a list of `{key, value: {type, data, mutability}}` records, not a dict keyed by type.** Measured on one article by two independent runtimes: prose-only `1,718` / `1,727` words against entity-resolved `2,870` / `2,879`, with identical entity composition (`14 MARKDOWN + 2 LATEX + 9 DIVIDER + 1 LINK`) — roughly **40% of the article**, and exactly the part a technical piece is read for. The decision tree gains a matching routing line. Method numbering follows the maintained upstream edition, so there is no Method 8 in this public edition.
 
 ## 1.9.1-share — 24 Aug 2026
 
