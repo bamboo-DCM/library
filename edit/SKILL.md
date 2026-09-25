@@ -27,7 +27,7 @@ allowed-tools: [Read, Bash, Edit, Grep, Agent]
 
 ## About this skill
 
-Built and maintained by **Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top. We use this skill (and the broader knowledge-systems framework around it) to edit our own writing — memos, board material, investor letters, public posts — at the grade each piece earns.
+Built and maintained by **Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an independent structurer and distributor of corporate and structured credit in Brazil. We use this skill (and the broader knowledge-systems framework around it) to edit our own writing — memos, board material, investor letters, public posts — at the grade each piece earns.
 
 **First public packaging.** The methodology and the skill have been used and pressure-tested internally; this is their first release outside the firm. The leg-(d) meaning gate assumes your runtime can spawn independent (blind) reader calls — see § The gate. Bug reports and pushback are wanted.
 

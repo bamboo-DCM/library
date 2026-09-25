@@ -3,7 +3,7 @@
 **For founders authoring a fundraise deck for the first time**
 **Bamboo DCM · v0.1-beta · 6 May 2026**
 
-*Working tools from an independent credit infrastructure firm with an intelligence layer. Shared early in v0.1-beta.*
+*Working tools from an independent structurer and distributor of corporate and structured credit in Brazil. Shared early in v0.1-beta.*
 
 A working playbook for building a fundraise deck from scratch. Slide-by-slide guidance, self-check questions, and the process discipline that makes a deck actually land.
 
@@ -11,7 +11,7 @@ A working playbook for building a fundraise deck from scratch. Slide-by-slide gu
 
 ## About this guide
 
-Built and maintained by **Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top. This is the build-mode entry point of our pitch-deck-audit kit: the audit kit ([`playbook.md`](playbook.md) + [`lens_template.md`](lens_template.md) + [`cowork_workflow.md`](cowork_workflow.md)) reviews an existing deck against a sector-tuned lens; the Field Guide builds the v1 in the first place. Both ship in the same `pitch-deck-audit/` folder.
+Built and maintained by **Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an independent structurer and distributor of corporate and structured credit in Brazil. This is the build-mode entry point of our pitch-deck-audit kit: the audit kit ([`playbook.md`](playbook.md) + [`lens_template.md`](lens_template.md) + [`cowork_workflow.md`](cowork_workflow.md)) reviews an existing deck against a sector-tuned lens; the Field Guide builds the v1 in the first place. Both ship in the same `pitch-deck-audit/` folder.
 
 **Versioned beta.** This is `v0.1-beta` — the first public release. The substrate has been used internally with founders in our network; the public packaging has not. Bug reports and pushback are wanted — contacts in the footer.
 
@@ -327,7 +327,7 @@ Send us a v0.5 of your deck once you have one and we will run our tool against i
 
 ---
 
-**Authored by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top.
+**Authored by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an independent structurer and distributor of corporate and structured credit in Brazil.
 
 Comments, improvements, or questions:
 

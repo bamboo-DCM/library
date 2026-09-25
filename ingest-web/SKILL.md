@@ -21,7 +21,7 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, WebFetch]
 
 ## About this skill
 
-Built and maintained by **Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top. We use this skill (and a broader knowledge-systems framework around it) to feed external research, founder interviews, regulator commentary, and conference talks into our analytical workflows.
+Built and maintained by **Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an independent structurer and distributor of corporate and structured credit in Brazil. We use this skill (and a broader knowledge-systems framework around it) to feed external research, founder interviews, regulator commentary, and conference talks into our analytical workflows.
 
 Comments, improvements, or questions:
 

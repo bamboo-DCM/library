@@ -1,6 +1,6 @@
 # Bamboo DCM — Library
 
-Open-source assets — Claude Code skills, playbooks, and frameworks — published by [**Bamboo DCM**](https://bamboodcm.com), the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top.
+Open-source assets — Claude Code skills, playbooks, and frameworks — published by [**Bamboo DCM**](https://bamboodcm.com), an independent structurer and distributor of corporate and structured credit in Brazil.
 
 These are pieces of the operating model we use internally. We're publishing them as we go because the firm's competitive surface is the operating model itself, and the operating model gets stronger when others can pressure-test it.
 

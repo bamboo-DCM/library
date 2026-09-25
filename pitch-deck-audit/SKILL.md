@@ -23,7 +23,7 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, WebFetch]
 
 ## About this skill
 
-Built and maintained by **Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top. We use this skill (and the broader knowledge-systems framework around it) to audit fundraise decks, structurer-to-counterparty proposals, and sell-side teasers in our network.
+Built and maintained by **Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an independent structurer and distributor of corporate and structured credit in Brazil. We use this skill (and the broader knowledge-systems framework around it) to audit fundraise decks, structurer-to-counterparty proposals, and sell-side teasers in our network.
 
 **Versioned beta.** This is `v0.1.0-beta` — the first public release. The substrate has been used internally on real deals; the public packaging has not. Bug reports and pushback are wanted.
 

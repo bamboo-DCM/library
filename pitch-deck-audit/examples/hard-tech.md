@@ -383,7 +383,7 @@ energy-procurement relationships that took [N] years to build.
 
 ---
 
-**Authored by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top.
+**Authored by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an independent structurer and distributor of corporate and structured credit in Brazil.
 
 Comments, improvements, or questions:
 
