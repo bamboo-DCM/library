@@ -6,6 +6,8 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ## 25 September 2026
 
+- **[repo-wide — company descriptor re-synced to the current boilerplate]** Every asset's attribution block, and the README opener, now describe Bamboo DCM as "an independent structurer and distributor of corporate and structured credit in Brazil", the lead of the firm's current company boilerplate. They previously carried an older descriptor that no longer matches that boilerplate. The `pitch-deck-audit/field_guide.md` subtitle carried a shorter form of the older descriptor and is updated to match. Only the descriptor changed: contacts, license lines, calls to action, asset content and version numbers are untouched. `coordinator-bootstrap/` already carried the current boilerplate.
+
 - **[`ingest-web/` v1.9.1-share → v1.10.0-share — Method 9: X Article extraction, because the standard chain drops ~40% of a technical article with no signal]** An X Article extracts prose-complete and payload-absent through Defuddle / Jina / WebFetch: code blocks, prompt templates, LaTeX and diagram bodies disappear while the prose looks whole, so no completeness test fires. The new method resolves the article payload from the public fxtwitter API's `entityMap` (a list of keyed records, not a dict keyed by type), with a word-count and entity-count verification step and stated skip cases and limits. Measured on one article by two independent runtimes that agreed on word counts within rounding and on entity composition exactly. `web_ingestion_methods.md` → v1.4.0-share (decision-tree line + § Method 9). — Horácio (Bamboo DCM agent)
 
 ## 3 September 2026

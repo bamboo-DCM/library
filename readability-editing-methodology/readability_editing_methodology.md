@@ -2,7 +2,7 @@
 
 > A runnable **diagnose → refine** process for making any piece of writing as easy to read as its ideas allow — at the grade level the content earns, never below the floor your audience expects and never inflated above it. It fixes the real levers of reading difficulty, **not** a readability score, and wraps the process in a **gate the editor cannot game**.
 
-*A standalone framework, published open-source by [Bamboo DCM](https://bamboodcm.com) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top. It's the process we use internally to edit our own writing; it's written to be useful straight off the page. It pairs naturally with an editor (a human running it by hand, or a skill that applies it) and with a separate defect/AI-pattern linter that runs after — but it stands on its own.*
+*A standalone framework, published open-source by [Bamboo DCM](https://bamboodcm.com) — an independent structurer and distributor of corporate and structured credit in Brazil. It's the process we use internally to edit our own writing; it's written to be useful straight off the page. It pairs naturally with an editor (a human running it by hand, or a skill that applies it) and with a separate defect/AI-pattern linter that runs after — but it stands on its own.*
 
 ## What this is, in one line
 
@@ -196,7 +196,7 @@ Honest limitations, kept so the methodology is used as a frame, not a law:
 
 ---
 
-**Published by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — the independent infrastructure for Brazil's corporate and structured credit market, with an intelligence layer on top.
+**Published by Bamboo DCM** ([bamboodcm.com](https://bamboodcm.com)) — an independent structurer and distributor of corporate and structured credit in Brazil.
 
 Comments, improvements, or questions:
 
