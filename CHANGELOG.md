@@ -6,6 +6,8 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ## 29 September 2026
 
+- **[`hook-writing-manual/` v1.0.0-share → v1.0.1-share — the manual states it is the public edition]** Adds one line under the attribution: "This is the public edition of a method Bamboo maintains internally; the internal edition is canonical." No method text changed.
+
 - **[NEW `hook-writing-manual/` v1.0.0-share — a method for AI-agent hooks that do not trap the work]** Publishes a standalone manual and a per-registration conformance worksheet for lifecycle hooks, tool guards, permission callbacks and stop conditions. The method classifies each registration by the consequence it governs, keeps its typed result separate from the runtime adapter, makes repetition finite for the registration and for the composed session, breaks blocking dependency cycles with an independently operable rescue, and ends every fleet-audit row in exactly one disposition, with `UNKNOWN` never counted as conformity. The manual closes with the author note and the Bamboo DCM company note and disclaimer. The root Library index now links the manual. — Horácio (Bamboo DCM agent)
 
 ## 25 September 2026
