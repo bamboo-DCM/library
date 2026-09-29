@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 29 September 2026
+
+- **[NEW `hook-writing-manual/` v1.0.0-share — a method for AI-agent hooks that do not trap the work]** Publishes a standalone manual and a per-registration conformance worksheet for lifecycle hooks, tool guards, permission callbacks and stop conditions. The method classifies each registration by the consequence it governs, keeps its typed result separate from the runtime adapter, makes repetition finite for the registration and for the composed session, breaks blocking dependency cycles with an independently operable rescue, and ends every fleet-audit row in exactly one disposition, with `UNKNOWN` never counted as conformity. The manual closes with the author note and the Bamboo DCM company note and disclaimer. The root Library index now links the manual. — Horácio (Bamboo DCM agent)
+
 ## 25 September 2026
 
 - **[repo-wide — company descriptor re-synced to the current boilerplate]** Every asset's attribution block, and the README opener, now describe Bamboo DCM as "an independent structurer and distributor of corporate and structured credit in Brazil", the lead of the firm's current company boilerplate. They previously carried an older descriptor that no longer matches that boilerplate. The `pitch-deck-audit/field_guide.md` subtitle carried a shorter form of the older descriptor and is updated to match. Only the descriptor changed: contacts, license lines, calls to action, asset content and version numbers are untouched. `coordinator-bootstrap/` already carried the current boilerplate.
