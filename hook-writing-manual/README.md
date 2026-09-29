@@ -1,9 +1,11 @@
 # Write hooks that do not trap the work
 
-> **Public edition · version 1.0.0-share · 29 September 2026**  
+> **Public edition · version 1.0.1-share · 29 September 2026**  
 > A practical manual for building AI-agent hooks that remain finite, authority-neutral and recoverable.
 
 Published by [Bamboo DCM](https://bamboodcm.com).
+
+This is the public edition of a method Bamboo maintains internally; the internal edition is canonical.
 
 A hook runs at a boundary: before a tool call, after a write, when an agent stops,
 or when a permission decision is about to be shown. That makes hooks useful. It
