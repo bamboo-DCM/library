@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 30 September 2026
+
+- **[`pitch-deck-audit/field_guide.md` — two process sections for the pitch meeting itself]** Part 5 (process discipline) gains § 5, *Win the first five minutes*: after Aaron Dinin, lead with traction, revenue, market, competition and trajectory, and bring the product in as the explanation of those numbers. It also gains § 6, *In the room*: preparing the meeting, delivering the pitch, legible presented slides, and the meeting's goal as the next meeting. Both come from the generic layer of the internal playbook the kit was built from; nothing company-specific moved. The audit rubric, the lens system, the output contract and the version markers are unchanged. — Horácio (Bamboo DCM agent)
+
 ## 29 September 2026
 
 - **[`hook-writing-manual/` v1.0.0-share → v1.0.1-share — the manual states it is the public edition]** Adds one line under the attribution: "This is the public edition of a method Bamboo maintains internally; the internal edition is canonical." No method text changed.
