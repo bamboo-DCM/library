@@ -295,6 +295,44 @@ A hot first meeting triggers a diligence request the same week. The data room sh
 
 Once you have one term sheet, the others compress. Don't lie. Do communicate state: "We're in late-stage diligence with three other partners" is honest and creates competitive tension. Set a clear close date with a specific reason (board meeting, signing date, regulatory window). Use the first term sheet's 7-14 day expiration as a forcing function for the others. Beyond 3 active term sheets, marginal benefit drops fast and your time cost rises sharply.
 
+### 5. Win the first five minutes
+
+Aaron Dinin's point is that most pitches are lost early: an investor often decides *not* to invest within the first five minutes. First-time founders tend to spend those minutes on product features and on how the technology works. Spend them on the business instead, in roughly this order:
+
+| Order | Topic | What the investor is checking |
+|---|---|---|
+| 1 | Customer traction | How many customers you have, and how fast that number is growing |
+| 2 | Revenue | How much, and the month-over-month trend |
+| 3 | Market | How large it is, how fast it is growing, and why now |
+| 4 | Competition | Who else is there, and why you are better placed |
+| 5 | Financial trajectory | How big this can get, and the path to profitability |
+
+Product and technology come next, as the explanation for numbers the investor already cares about. If your sector lens names a different headline metric, lead with that one.
+
+### 6. In the room
+
+The deck gets you the meeting; the meeting is where the round moves. The pitch guides this kit draws on (listed in the sources at the end) converge on a short list.
+
+**Before the meeting.**
+
+- Get a warm introduction where you can. It outperforms a cold email.
+- Check the fund's portfolio for direct competitors, and its criteria for sector, stage and cheque size, before you ask for time.
+- Rehearse the flow, the timing and the transitions until you can hold them without looking at the slides.
+
+**During the pitch.**
+
+- One person, normally the CEO, carries the main pitch, and it runs under about ten minutes. Leave the rest of the slot for questions.
+- Open with who you are and what the company does in one sentence. Earn attention in the first minute.
+- Tell it as a story with clear transitions. Pitch where the company is going, not only where it is today.
+- Anchor claims in things the investor already knows, and show real validators: named customers, signed contracts, credible backers.
+- Don't read the slides, don't rush, and don't lean on acronyms or jargon.
+- Avoid anything that can fail live, such as embedded video, unless you have a fallback.
+- Aim for confidence, not hype. Overclaiming costs more credibility than it wins.
+
+**On the slides you present.** Number the pages, keep type large enough to read from the back of the room, and keep formatting consistent. The listening deck carries less text than the reading deck (Part 1, the two-decks rule).
+
+**The goal of the meeting is the next meeting**, not a term sheet on the spot.
+
 ---
 
 ## Where to start
