@@ -1,6 +1,6 @@
 ---
 skill: ingest-web
-updated: 25 Sep 2026
+updated: 30 Sep 2026
 ---
 
 # ingest-web — CHANGELOG
@@ -10,6 +10,12 @@ Public mirror of the `/ingest-web` skill. Pointer: [SKILL.md](SKILL.md) · [web_
 Repo-wide notes live at [../CHANGELOG.md](../CHANGELOG.md); this file documents per-version delta narrative for the skill specifically.
 
 ---
+
+## v1.11.0-share — 30 Sep 2026
+
+Re-abstract the complete current procedure into a self-contained public edition. New paths: Method 8 audio-RSS transcription; wrapper decoding before routing; iframe fallback; transcript completeness; Unicode screening before consumption and save; install-as-needed with the fetched-content boundary; trusted same-shell Jina key loading. Adds the standard-library scanner while preserving its reviewed executable classifier. Keeps the public HTTP extractor, adjusts its temporary default for the platform, recognizes explicit error/CDN bodies as fallback triggers and requires the high-volume flag to equal `1` before sending an authenticated header. Existing Method 9 and image-completeness contract remain.
+
+Includes the later prose lessons about client-side viewer shells, pasted transcript ratios, partially visible catalogs, browser read limits and primary-source metadata. No internal fetch transport, workstation adapters, private source links or source-history files ship. Windows recipes are `PORTED-UNTESTED`; macOS offline verification is recorded with the release package.
 
 ## 1.10.0-share — 25 Sep 2026
 

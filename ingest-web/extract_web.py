@@ -33,8 +33,7 @@ Usage
     extract_web.py URL [--out PATH] [--json] [--no-fallthrough]
     extract_web.py --from-file PATH [--json]      # count/screen an existing body
 
-Writes the chosen body to --out (default ``/tmp/extract.md``, the path contract
-both skills already read from) and prints a JSON report to stdout.
+Writes the chosen body to --out (default ``extract.md`` under the platform temporary directory) and prints a JSON report to stdout.
 
 Env: ``JINA_API_KEY`` + ``JINA_HIGH_VOLUME`` authenticate the Jina leg (500 RPM)
 exactly as the skill's chain does. Neither is required - keyless Jina is free
@@ -49,6 +48,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 
 # Inline markdown image refs. Both Defuddle and Jina emit this form.
 IMG_RE = re.compile(r'!\[(?P<alt>[^\]]*)\]\((?P<url>[^)\s]+)(?P<tail>[^)]*)\)')
@@ -93,7 +93,7 @@ def defuddle(url: str) -> str:
 def jina(url: str) -> str:
     auth: list[str] = []
     key = os.environ.get('JINA_API_KEY')
-    if key and os.environ.get('JINA_HIGH_VOLUME'):
+    if key and os.environ.get('JINA_HIGH_VOLUME') == '1':
         auth = ['-H', f'Authorization: Bearer {key}']
     return fetch(['curl', '-sL', '-A', UA, '--max-time', '80', *auth,
                   f'https://r.jina.ai/{url}'])
@@ -147,7 +147,8 @@ def run_chain(url: str, allow_fallthrough: bool = True) -> dict:
     d_words = words(d_body)
     d_h = harvest(d_body)
 
-    thin = d_words < CONTENT_FLOOR
+    thin = (d_words < CONTENT_FLOOR or bool(re.search(
+        r'"error"\s*:|error code: 1015|429 Too Many Requests', d_body, re.I)))
     image_blind = d_h['images_emitted'] == 0
 
     if not allow_fallthrough or not (thin or image_blind):
@@ -199,7 +200,7 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('url', nargs='?', help='URL to extract')
     ap.add_argument('--from-file', help='count/screen an already-fetched body instead of fetching')
-    ap.add_argument('--out', default='/tmp/extract.md', help='where to write the chosen body')
+    ap.add_argument('--out', default=os.path.join(tempfile.gettempdir(), 'extract.md'), help='where to write the chosen body')
     ap.add_argument('--json', action='store_true', help='print only the JSON report')
     ap.add_argument('--no-fallthrough', action='store_true',
                     help='disable the image-aware fall-through (diagnostic use)')
