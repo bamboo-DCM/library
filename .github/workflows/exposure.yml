@@ -1,0 +1,28 @@
+name: exposure
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A newer push to the same pull request cancels the superseded run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  exposure:
+    name: exposure
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Prove the scanner
+        run: python3 .github/exposure_check.py --self-test
+      - name: Scan the proposed repository tree
+        run: python3 .github/exposure_check.py .

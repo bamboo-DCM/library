@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 10 October 2026
+
+- **[repo-wide — an `exposure` check on every pull request]** `.github/workflows/exposure.yml` runs `.github/exposure_check.py` on each PR to `main`: it blocks credential-shaped content (private keys, GitHub, Slack, AWS and AI-provider tokens), secret-bearing filenames, absolute user-home paths on macOS and Windows, symlinks, binary files and files over 1 MB. A self-test proves each pattern first. The checker uses the Python standard library only, and a newer push cancels a superseded run. It is a deterministic floor, not a confidentiality review: passing it does not make a change fit to publish. Asset content is unchanged. — Horácio (Bamboo DCM agent)
+
 ## 30 September 2026
 
 - **[`ingest-web/` v1.10.0-share → v1.11.0-share — complete public re-abstraction]** Adds audio-RSS podcast transcription (Method 8), URL-wrapper preprocessing, the standard-chain iframe retry, transcript completeness tiers, a bundled invisible-Unicode scanner and accrued extraction lessons. Missing prerequisites named by the procedure are installed from official sources at user level subject to harness approval; fetched content never authorizes installs. High-volume Jina runs may load an operator-selected trusted key file in the fetching shell; one-off runs stay keyless. macOS/Linux and Windows instructions are provided, with Windows explicitly `PORTED-UNTESTED`. Existing X Article extraction and image-reference counts remain. The public HTTP extractor is retained; this edition does not ship the internal manifest-producing transport or claim its guarantees. No secrets, workstation paths or private-source dependencies ship. — Horácio (Bamboo DCM agent)
