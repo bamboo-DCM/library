@@ -1,12 +1,12 @@
 # Pitch deck lens — regulated structured-product marketing
 
-**What this file is.** A filled sector lens for a regulated structured-product marketing document — specifically the type used by Brazilian asset managers distributing regulated investment vehicles (FIDCs, Fiagros, CRIs, CRAs, FIIs) to qualified institutional investors under CVM Instrução 160 (CVM 160). The conventions of this artifact class are radically different from a fundraise deck. This is not a pitch to investors who need to be convinced the category is real; it is a regulated marketing document to institutional allocators who already understand the asset class and are evaluating whether this specific offering, from this specific manager, at this specific moment, deserves allocation.
+**What this file is.** A filled sector lens for a regulated structured-product marketing document — specifically the type used by Brazilian asset managers distributing regulated investment vehicles (FIDCs, Fiagros, CRIs, CRAs, FIIs) to qualified institutional investors under CVM Instrução 160 (CVM 160). The conventions of this artifact class are radically different from a fundraise deck. This is not a pitch to investors who need to be convinced the category is real; it is a regulated marketing document to institutional investors who already understand the asset class and are evaluating whether this specific offering, from this specific manager, at this specific moment, deserves allocation.
 
 **Source.** Structurally abstracted from Vinci Crédito Portfólio CDI+ FIDC (Vinci Partners, public CVM 160 marketing material). The three-pillar arc, mandatory disclaimer wall, cronograma format, risk-factor structure, and distribution syndicate conventions are drawn from that publicly-distributed material. Cited here with attribution per fair use of public regulated marketing material.
 
 **How to use this file.** Sections 1–3 cover what this artifact is and how its arc differs from a fundraise deck. Section 7 (rubric) covers both content quality and CVM 160 compliance checkpoints. Section 8 (red flags) covers the compliance failures that get material pulled before distribution. Read §§1–3 before any audit run.
 
-**This is a living document.** The cronograma and offering details require updating each time the fund opens a new window or issues a new series. CVM 160 disclaimer language must be reviewed with counsel each time the regulatory environment updates.
+**This is a living document.** The cronograma and offering details require updating each time the fund opens a new window or issues a new series. Counsel review is prudent when assessing how recent changes in law affect disclaimer language or when adjustments to its legal template warrant it. Apply any independently established legal or contractual review requirement.
 
 **See also.** [`playbook.md`](../playbook.md) §§1, 3, 10, 17 for methodology context. For the fundraise deck conventions that this artifact explicitly rejects, read [`playbook.md`](../playbook.md) §§2–15. [`lens_template.md`](../lens_template.md) for the blank schema.
 
@@ -31,7 +31,7 @@ Management team: [N] professionals; [describe portfolio management team briefly
 Key metrics (fund):
   - Track record: [N years / N series of prior issuances]
   - Volume managed: R$[X]M across [N] prior series
-  - Investor base: [N] institutional allocators
+  - Investor base: [N] institutional investors
   - Default history: [X]% portfolio-level loss across [N] series / zero credit events on prior series
   - Rating: [if rated — agency + rating level]
 ```
@@ -67,13 +67,13 @@ Regulated CVM 160 marketing material follows a different structure from any fund
 | Section | Content | Notes |
 |---|---|---|
 | **Disclaimer wall (mandatory)** | CVM 160 required language: "This is not a public offering"; qualified-investor eligibility statement; past-performance disclaimer; risk disclosure header; contact for prospectus; ANBIMA code of conduct declaration | 3–6 pages. Required by regulation. Must appear before any fund information. |
-| **Manager credentials** | Manager AUM, strategy history, team tenure, regulatory standing, ANBIMA classification | This is the "team" section equivalent. Institutional allocators need to know the manager before the product. |
-| **Three-pillar arc** | Pillar 1: the asset class (why credit receivables / agricultural credit / real-estate receivables deserve allocation in the current cycle); Pillar 2: the manager (why this manager has a structural edge in originating, structuring, and surveilling this asset class); Pillar 3: the timing (why this series, at this moment, offers a better risk-adjusted return than the alternatives) | This is the core analytical argument. Each pillar answers one of the three allocator questions. |
+| **Manager credentials** | Manager AUM, strategy history, team tenure, regulatory standing, ANBIMA classification | This is the "team" section equivalent. Institutional investors need to know the manager before the product. |
+| **Three-pillar arc** | Pillar 1: the asset class (why credit receivables / agricultural credit / real-estate receivables deserve allocation in the current cycle); Pillar 2: the manager (why this manager has a structural edge in originating, structuring, and surveilling this asset class); Pillar 3: the timing (why this series, at this moment, offers a better risk-adjusted return than the alternatives) | This is the core analytical argument. Each pillar answers one of the three institutional investor questions. |
 | **Product specifics** | Series name, ISIN, target AUM, target return, distribution frequency, liquidity terms, minimum ticket, tax treatment, subscription periods | The term sheet equivalent. Must be fully populated; no placeholders. |
-| **Cronograma** | Subscription window, credit analysis window, allocation window, first distribution date, maturity or next liquidity event, key dates in the operational calendar | Brazilian institutional allocators have portfolio construction cadences; the cronograma must align with Q-end or month-end cycles. |
+| **Cronograma** | Subscription window, credit analysis window, allocation window, first distribution date, maturity or next liquidity event, key dates in the operational calendar | Brazilian institutional investors have portfolio construction cadences; the cronograma must align with Q-end or month-end cycles. |
 | **Eligibility criteria** | Who can invest: investidores qualificados per CVM Resolução 30 (minimum R$1M financial assets); investment restrictions if any (e.g., concentrated-portfolio exclusion for some pension funds); know-your-customer requirements | Missing eligibility criteria is a distribution-blocking compliance failure. |
 | **Risk factors** | Mandatory list: credit risk, concentration risk, liquidity risk, regulatory risk, operational risk, manager risk. Each with a description of the risk and the mitigation in the structure | CVM 160 material must enumerate risks. Omitting any category is a compliance failure, not a stylistic choice. |
-| **Portfolio and strategy detail** | For an active-management vehicle: originator selection criteria, maximum concentration per originator, minimum credit criteria, surveillance cadence, default resolution mechanics | Institutional allocators will ask these questions in diligence; the document must anticipate them. |
+| **Portfolio and strategy detail** | For an active-management vehicle: originator selection criteria, maximum concentration per originator, minimum credit criteria, surveillance cadence, default resolution mechanics | Institutional investors will ask these questions in diligence; the document must anticipate them. |
 | **Distribution syndicate** | List of qualified distributors authorized to sell this product to end investors; contact persons and cutoff dates per distributor | |
 | **Regulatory compliance block** | ANBIMA code reference, CVM authorization number, registration date, prospectus availability statement, complaints channel | Must appear on every page footer in most CVM 160-registered materials. |
 
@@ -149,7 +149,7 @@ Why this manager: [the operational edge — surveillance infrastructure, origina
   relationships, workout track record, credit-committee composition]
 ```
 
-The "why now" in a regulated-product document is a **market-conditions argument**, not a "why this company" narrative. Institutional allocators evaluate timing relative to the credit cycle, not relative to the manager's funding needs. The cronograma (§3) must be consistent with the "why now" argument — if the offering window doesn't align with a credible market-conditions case, allocators will wait for the next series.
+The "why now" in a regulated-product document is a **market-conditions argument**, not a "why this company" narrative. Institutional investors evaluate timing relative to the credit cycle, not relative to the manager's funding needs. The cronograma (§3) must be consistent with the "why now" argument — if the offering window doesn't align with a credible market-conditions case, institutional investors will wait for the next series.
 
 ---
 
@@ -158,14 +158,14 @@ The "why now" in a regulated-product document is a **market-conditions argument*
 | # | Criterion | What 5/5 looks like |
 |---|---|---|
 | 1 | Disclaimer wall is complete and first | CVM 160 mandatory language appears before any fund information. ANBIMA code reference, QI eligibility statement, past-performance disclaimer — all present in correct order. |
-| 2 | Three-pillar arc is explicit | Distinct sections for (1) asset class case, (2) manager credentials, and (3) timing/opportunity. An allocator reading only the section headers can follow the argument. |
+| 2 | Three-pillar arc is explicit | Distinct sections for (1) asset class case, (2) manager credentials, and (3) timing/opportunity. An institutional investor reading only the section headers can follow the argument. |
 | 3 | Manager credentials are specific, not generic | Track record in this specific asset class (not AUM-under-management alone): number of series, volume, default history, workout outcomes. |
 | 4 | Risk factors are enumerated, not summarized | Each risk category (credit, concentration, liquidity, regulatory, operational, manager) has its own paragraph with a mitigation mechanism named. No "risks exist" summaries. |
 | 5 | Cronograma aligns with distribution calendar | Subscription window, credit-analysis window, allocation, first distribution, and liquidity events are all populated with specific dates that align with Q-end and month-end cycles. |
 | 6 | Eligibility criteria are complete | CVM Resolução 30 QI definition, minimum ticket, and any fund-specific investment restrictions are stated. No ambiguity about who can subscribe. |
 | 7 | Product specifics are fully populated | Target return, distribution frequency, liquidity terms, minimum ticket, tax treatment, ISIN — none can be placeholder. |
-| 8 | Target return is defensible | The CDI + [N]% target is backed by the originator pipeline yield, cost of structure, and historical NIM on comparable series. An allocator asking "where does this number come from" gets an answer in the document. |
-| 9 | Distribution syndicate is listed | All authorized distributors named with contact persons. Allocators routed to the correct channel. |
+| 8 | Target return is defensible | The CDI + [N]% target is backed by the originator pipeline yield, cost of structure, and historical NIM on comparable series. An institutional investor asking "where does this number come from" gets an answer in the document. |
+| 9 | Distribution syndicate is listed | All authorized distributors named with contact persons. Institutional investors routed to the correct channel. |
 | 10 | Regulatory compliance block is on every page footer | Fund name, CVM authorization, ANBIMA code, "past performance is not a guarantee of future results" — per CVM 160 and ANBIMA requirements. |
 | 11 | Portfolio strategy is specific enough to diligence | For active management: originator selection criteria, maximum concentration per originator, minimum credit criteria, surveillance cadence, default resolution. |
 | 12 | Version and date are current | No prior-version dates visible. No series-specific data from a previous window still in the document. |
@@ -189,18 +189,18 @@ The "why now" in a regulated-product document is a **market-conditions argument*
 3. Cronograma not aligned to institutional calendar.
    A subscription window that ends on a random mid-month date, or a first distribution
    that doesn't align with month-end, signals operational immaturity to institutional
-   allocators who are managing month-end portfolio construction.
+   investors who are managing month-end portfolio construction.
 
 4. Eligibility criteria buried or incomplete.
    Many pension funds and insurers have internal allocation restrictions (maximum
    concentration in a single issuer or asset class, minimum credit rating for non-
    sovereign instruments). The eligibility section must be complete enough for a
-   compliance officer at the allocator to sign off without calling the distributor.
+   compliance officer at the institutional investor to sign off without calling the distributor.
 
 5. Three-pillar arc absent or collapsed.
    A document that jumps from cover to product specifics without the asset-class
    education and manager-credentials sections has not answered the two prior questions
-   the allocator is asking before they read the term sheet.
+   the institutional investor is asking before they read the term sheet.
 
 6. Risk factors listed without mitigations.
    "Credit risk exists" is not a risk factor disclosure. Each risk requires a paragraph
@@ -217,9 +217,9 @@ The "why now" in a regulated-product document is a **market-conditions argument*
    updated offering document undermine credibility and may constitute misrepresentation.
 
 9. Comparable fund analysis absent.
-   Institutional allocators are comparing this offering against three or four alternatives
+   Institutional investors are comparing this offering against three or four alternatives
    in their pipeline at the same time. A document that does not address "why this fund
-   vs [comparable FIDC]" forces the allocator to do the comparison themselves — and they
+   vs [comparable FIDC]" forces the institutional investor to do the comparison themselves — and they
    will do it less favorably to the fund.
 ```
 
@@ -285,7 +285,7 @@ For a regulated structured product, "comparable raises" means prior series of th
 | [Comparable FIDC from competing manager] | [Series, year] | CDI + [N]% | R$[X]M | [One sentence on what differentiated their offering] |
 | [Prior series of this fund] | [Series N-1] | CDI + [N]% | R$[X]M target / R$[X]M raised | [Track record summary — return delivered vs target, credit events if any] |
 
-**What to take from Vinci's structure.** The three-pillar arc (asset class → manager → timing) is the load-bearing structure of any well-authored regulated marketing document. Each pillar has a distinct job and a distinct audience: the asset class section converts a generalist allocator; the manager section converts a specialist; the timing section converts a decision-ready allocator who needs a reason to subscribe now rather than next quarter.
+**What to take from Vinci's structure.** The three-pillar arc (asset class → manager → timing) is the load-bearing structure of any well-authored regulated marketing document. Each pillar has a distinct job and a distinct audience: the asset class section converts a generalist institutional investor; the manager section converts a specialist; the timing section converts a decision-ready institutional investor who needs a reason to subscribe now rather than next quarter.
 
 ---
 
@@ -326,7 +326,7 @@ Supporting table:
 
 - **Institutional, not persuasive.** CVM 160 marketing material is not allowed to be persuasive in the sense a startup pitch deck is. The register is: factual, precise, disclosure-complete.
 - **Numbers over narratives.** Every return claim, concentration limit, and credit criterion must be a number, not a description.
-- **Bilingual.** Brazilian institutional allocators work in Portuguese; international co-investors may need English. If distributing to both audiences, produce parallel versions rather than a mixed-language document. ANBIMA review is in Portuguese.
+- **Bilingual.** Brazilian institutional investors work in Portuguese; international co-investors may need English. If distributing to both audiences, produce parallel versions rather than a mixed-language document. ANBIMA review is in Portuguese.
 - **No superlatives.** "Best," "leading," "largest" require substantiation in a CVM 160 document. If you can't cite the source and date for the claim, drop it.
 - **No AI vocabulary.** Avoid: robust, comprehensive, holistic, synergy, paradigm, impactful. In a regulated document, these words flag a marketing overlay on what should be a disclosure document.
 - **ANBIMA vocabulary.** Preferred terms: "veículo de investimento regulado," "cotas seniores," "cotas subordinadas," "cedente," "cedido," "direitos creditórios," "patente de originação" — use the vocabulary an ANBIMA compliance reviewer expects to find.
@@ -347,7 +347,7 @@ Supporting table:
 
 ## 13. What Claude should NOT do
 
-- Claude should **not generate CVM 160 disclaimer language** from memory. Mandatory regulatory text changes with regulatory updates. Always copy from the current ANBIMA template and have it reviewed by compliance counsel before distribution.
+- Claude should **not generate CVM 160 disclaimer language** from memory. Required regulatory wording must remain current. Legal documents should be drafted by counsel or based on an established initial legal template; suitable prior art can then be reused after checking its fit and currency. Use the current applicable regulatory or ANBIMA wording, and refer to counsel prudently when assessing the impact of recent changes in law or when adjustments to legal templates warrant it.
 - Claude should **not invent fund metrics** — AUM, return history, loss rates, or ISIN — that haven't been provided. Placeholder fund metrics in a CVM 160 document are a compliance risk if the document circulates before they are replaced with actual data.
 - Claude should **not optimize for persuasiveness at the expense of disclosure completeness.** A regulated marketing document that omits a required risk factor to keep the reader's attention is non-compliant. Completeness takes priority over narrative flow.
 - Claude should **not give feedback using fundraise-deck criteria.** A regulated product document has no "problem slide," no "why now" in the startup sense, no team bios in the founder sense. Audit it against the rubric in §7, not against playbook §§2–15.

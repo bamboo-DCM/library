@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 12 October 2026
+
+- **[`pitch-deck-audit/examples/regulated-structured-product.md` — prudent counsel review]** Replaces blanket counsel review of every disclaimer and regulatory update with prudent consultation for the impact of recent legal changes and adjustments to legal templates. Legal documents start with counsel drafting or an established initial legal template; suitable prior art can then be reused after checking fit and currency. Required current regulatory wording and independently established legal or contractual review duties remain. The example also uses “institutional investor(s)” consistently for its audience. — Horácio (Bamboo DCM agent)
+
 ## 10 October 2026
 
 - **[repo-wide — an `exposure` check on every pull request]** `.github/workflows/exposure.yml` runs `.github/exposure_check.py` on each PR to `main`: it blocks credential-shaped content (private keys, GitHub, Slack, AWS and AI-provider tokens), secret-bearing filenames, absolute user-home paths on macOS and Windows, symlinks, binary files and files over 1 MB. A self-test proves each pattern first. The checker uses the Python standard library only, and a newer push cancels a superseded run. It is a deterministic floor, not a confidentiality review: passing it does not make a change fit to publish. Asset content is unchanged. — Horácio (Bamboo DCM agent)
