@@ -1,21 +1,19 @@
 # Bamboo DCM — Library
 
-Open-source assets — Claude Code skills, playbooks, and frameworks — published by [**Bamboo DCM**](https://bamboodcm.com), an independent structurer and distributor of corporate and structured credit in Brazil.
+> **This repository is archived.** It is read-only and no longer maintained, and it no longer accepts issues or pull requests. Every asset below stays available exactly as published, at the version listed and under the license stated.
 
-These are pieces of the operating model we use internally. We're publishing them as we go because the firm's competitive surface is the operating model itself, and the operating model gets stronger when others can pressure-test it.
+Open-source assets — Claude Code skills, playbooks, and frameworks — published by [**Bamboo DCM**](https://bamboodcm.com), an independent structurer and distributor of corporate and structured credit in Brazil, between May and October 2026 so that others could pressure-test them.
 
-## Available now
+## Assets (as archived)
 
 | Asset | Type | What it is |
 |---|---|---|
-| [Hook Writing Manual](./hook-writing-manual/) | Standalone manual + conformance worksheet | Write AI-agent hooks that stay finite, authority-neutral and recoverable. The manual starts from the consequence a hook governs rather than a fail-open or fail-closed slogan, keeps the hook's typed result (`ALLOW`, `DENY`, `UNAVAILABLE`, `ERROR`, `ADVISORY`, `DEBT`) separate from the runtime's exit-code protocol, bounds repetition for each registration and for the whole session, and requires every blocking hook to keep a rescue path that does not depend on the hook itself. A per-registration worksheet and ten test families turn the method into an audit. **`v1.0.0-share`.** |
+| [Hook Writing Manual](./hook-writing-manual/) | Standalone manual + conformance worksheet | Write AI-agent hooks that stay finite, authority-neutral and recoverable. The manual starts from the consequence a hook governs rather than a fail-open or fail-closed slogan, keeps the hook's typed result (`ALLOW`, `DENY`, `UNAVAILABLE`, `ERROR`, `ADVISORY`, `DEBT`) separate from the runtime's exit-code protocol, bounds repetition for each registration and for the whole session, and requires every blocking hook to keep a rescue path that does not depend on the hook itself. A per-registration worksheet and ten test families turn the method into an audit. **`v1.0.1-share`.** |
 | [Coordinator Bootstrap](./coordinator-bootstrap/) | Standalone manual + pasteable bootstrap | Test whether an AI runtime can carry one durable coordinator without inventing state or exceeding authority. The manual defines a four-property verification floor, a runtime-neutral bootstrap, and evidence-bearing `READY` / `STOPPED` receipts. A truthful stop counts as a valid capability result; it never licenses a duplicate coordinator. v1.1 distinguishes multi-agent execution from durable coordination and reports the bounded 3 September 2026 harness result. **`v1.1.0-share`.** |
 | [`/ingest-web`](./ingest-web/) | Claude Code skill | Extract web content as clean markdown. Includes a dedicated YouTube transcript chain (youtube-transcript-api → yt-dlp → explicit fallback alert) that routes YouTube URLs separately from the standard Defuddle / Jina Reader / WebFetch chain — the standard chain returns page chrome on YouTube, not the actual transcript. Ships `SKILL.md` + a companion reference, [`web_ingestion_methods.md`](./ingest-web/web_ingestion_methods.md), covering each extraction method and what to do when a page resists it. |
-| [`/pitch-deck-audit`](./pitch-deck-audit/) | Claude Code skill + standalone playbook | Audit a fundraise deck (or structurer proposal, M&A teaser) using a sector-tuned lens — and, for founders pre-deck, build a v1 from scratch. Ships `SKILL.md` + a standalone playbook (38 sections, 8 parts) + a build-mode [`field_guide.md`](./pitch-deck-audit/field_guide.md) for founders authoring their first deck + a fillable lens template + a Cowork (no-install) workflow guide + five worked sector [`examples/`](./pitch-deck-audit/examples/) (credit-fintech / regulated structured-product / hard-tech / M&A teaser / structurer-to-counterparty). **`v0.1.1-beta` — versioned beta, narrow distribution while the substrate gets pressure-tested.** |
+| [`/pitch-deck-audit`](./pitch-deck-audit/) | Claude Code skill + standalone playbook | Audit a fundraise deck (or structurer proposal, M&A teaser) using a sector-tuned lens — and, for founders pre-deck, build a v1 from scratch. Ships `SKILL.md` + a standalone playbook (38 sections, 8 parts) + a build-mode [`field_guide.md`](./pitch-deck-audit/field_guide.md) for founders authoring their first deck + a fillable lens template + a Cowork (no-install) workflow guide + five worked sector [`examples/`](./pitch-deck-audit/examples/) (credit-fintech / regulated structured-product / hard-tech / M&A teaser / structurer-to-counterparty). **`v0.1.1-beta`.** |
 | [Readability-Editing Methodology](./readability-editing-methodology/) | Standalone framework | A diagnose→refine process for making writing as easy to read as its ideas allow — fix the real levers of reading difficulty (abstraction density, concreteness, cohesion, sentence-variation, structural variation, term-glossing), **not** a readability score. Built on a "gate it can't game": measurably-easier (a corroborating flag, never a veto) + not-dumbed-down + on-floor + meaning-preserved via a **blocking, blind, independently-re-derived** claim-diff. Reading-science-grounded (Gopen & Swan, Williams, cognitive load, plain-language movement), with a floor-and-ceiling and a no-edit (restraint) terminal. Bilingual-aware. |
-| [`/edit`](./edit/) | Claude Code skill + 2 tools | Refine an existing draft to read as easily as its ideas allow — at the grade the content earns, never below the floor your audience expects, never inflated above it. The executable layer on top of the [Readability-Editing Methodology](./readability-editing-methodology/): shells out to a deterministic diagnostic (`readability_diag.py`) for the countable flags, judges intrinsic-vs-extraneous load in-model, and on `--apply` runs a **gate it can't game** — meaning-preservation held **outside** the rewriter via a blind, diff-anchored, three-reader consensus (`blind_meaning_confirm.py`). Read-only by default; voice-neutral; bilingual-aware. Ships `SKILL.md` + the two co-located stdlib tools (Python 3.8+, no deps). **`v0.3.0-share`.** |
-
-More assets land here as we package them. If the broader knowledge-systems framework around these is interesting, get in touch.
+| [`/edit`](./edit/) | Claude Code skill + 2 tools | Refine an existing draft to read as easily as its ideas allow — at the grade the content earns, never below the floor your audience expects, never inflated above it. The executable layer on top of the [Readability-Editing Methodology](./readability-editing-methodology/): shells out to a deterministic diagnostic (`readability_diag.py`) for the countable flags, judges intrinsic-vs-extraneous load in-model, and on `--apply` runs a **gate it can't game** — meaning-preservation held **outside** the rewriter via a blind, diff-anchored, three-reader consensus (`blind_meaning_confirm.py`). Read-only by default; voice-neutral; bilingual-aware. Ships `SKILL.md` + the two co-located stdlib tools (Python 3.8+, no deps). **`v0.4.0-share`.** |
 
 ## Using the assets
 
@@ -63,18 +61,9 @@ Each has its own usage notes inside its folder. They're written to be useful sta
 
 ## Contact
 
-Comments, improvements, bug reports, or questions:
-
-- **Arthur O'Keefe** — [arthur@bamboodcm.com](mailto:arthur@bamboodcm.com)
-- **Felipe Grassi de Moraes** — [felipe@bamboodcm.com](mailto:felipe@bamboodcm.com)
-- **Urian Inhauser** — [urian@bamboodcm.com](mailto:urian@bamboodcm.com)
-
-Issues and pull requests are welcome. We don't promise SLAs on either, but we read everything.
+For questions about these assets, contact Bamboo DCM through [bamboodcm.com](https://bamboodcm.com).
 
 ## License
 
 [CC-BY 4.0](./LICENSE) — free to share and adapt with attribution to Bamboo DCM. Commercial use is permitted; we ask that you keep the attribution intact and link back to this repository (or to [bamboodcm.com](https://bamboodcm.com)) when you do.
 
----
-
-*These assets are part of an internal knowledge-systems framework Bamboo DCM has been building for AI-native execution in regulated finance. We're publishing more as we package them — if the broader framework is interesting, get in touch.*
