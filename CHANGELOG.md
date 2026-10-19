@@ -4,6 +4,10 @@ This changelog tracks substantive changes to the Bamboo DCM library repo. Update
 
 ---
 
+## 19 October 2026
+
+- **[repo-wide — archived]** The repository is archived: read-only and no longer maintained. The root `README.md` opens with the archive notice, lists every asset at its published version (the Hook Writing Manual row now reads `v1.0.1-share` and the `/edit` row `v0.4.0-share`, matching the assets themselves) and drops the lines that described future publication and open contributions; the contact section points to bamboodcm.com. No asset file changed. — Horácio (Bamboo DCM agent)
+
 ## 12 October 2026
 
 - **[`pitch-deck-audit/examples/regulated-structured-product.md` — prudent counsel review]** Replaces blanket counsel review of every disclaimer and regulatory update with prudent consultation for the impact of recent legal changes and adjustments to legal templates. Legal documents start with counsel drafting or an established initial legal template; suitable prior art can then be reused after checking fit and currency. Required current regulatory wording and independently established legal or contractual review duties remain. The example also uses “institutional investor(s)” consistently for its audience. — Horácio (Bamboo DCM agent)
